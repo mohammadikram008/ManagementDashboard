@@ -119,6 +119,7 @@ justify-content: start;
   margin-left: 2rem;
 }
 .table-body{
+  background-color: white;
   height: 60vh;
 }
 .table-row-data{

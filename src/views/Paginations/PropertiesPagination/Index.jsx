@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './PropertyPagination.css';
 import ReactPaginate from 'react-paginate';
@@ -19,8 +19,10 @@ import {
   PaginationLink,
 } from "reactstrap";
 import { BiFilterAlt } from 'react-icons/bi';
+import axios from 'axios';
+const Index = ({ properties, Portfolio }) => {
 
-const Index = ({ properties, itemsp, Portfolio }) => {
+
   console.log("properties", properties);
   const navigate = useNavigate();
   const pageSize = 10;
@@ -45,18 +47,21 @@ const Index = ({ properties, itemsp, Portfolio }) => {
   };
 
   const renderProperties = () => {
-    const filteredProperties = filterProperties();
+    let filteredProperties = filterProperties();
     const startIndex = currentPage * pageSize;
     const endIndex = startIndex + pageSize;
+    if (!Array.isArray(filteredProperties)) {
+      filteredProperties = [];
+    }
 
     return filteredProperties.slice(startIndex, endIndex).map((property, index) => (
-      <tr key={property.id} onClick={() => handleNavigation()} className='table-row-data'>
+      <tr key={property.id} onClick={() => handleNavigation(property)} className='table-row-data'>
         <td>{index}</td>
         <td>{property.name}</td>
         <td>{property.address}</td>
         <td>{property.city}</td>
         <td>{property.country}</td>
-        <td>{property.type}</td>
+        <td>{property.propertytype}</td>
         <td>{property.price}</td>
         {Portfoliovalue ? <td className="center">{property.FeetOwned}</td> : ""}
       </tr>
@@ -84,7 +89,8 @@ const Index = ({ properties, itemsp, Portfolio }) => {
     if (filterPropertyType) {
       filtered = filtered.filter(
         (property) =>
-          property.propertyType.toLowerCase() === filterPropertyType.toLowerCase()
+          // console.log("1",property)
+          property.propertytype.toLowerCase() === filterPropertyType.toLowerCase()
       );
     }
 
@@ -93,7 +99,7 @@ const Index = ({ properties, itemsp, Portfolio }) => {
 
   const handleNavigation = (prop) => {
 
-    navigate('/explore/propertydetail', { state: prop });
+    navigate('/TransactionTable', { state: prop });
   };
 
   return (
@@ -176,21 +182,25 @@ const Index = ({ properties, itemsp, Portfolio }) => {
           </Input>
         </FormGroup>
       </Collapse>
-      <Table hover className='table-body'>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Address</th>
-            <th>City</th>
-            <th>Country</th>
-            <th>Property Type</th>
-            <th>Price</th>
-            {Portfoliovalue ? <th>Feet Owned</th> : ""}
-          </tr>
-        </thead>
-        <tbody>{renderProperties()}</tbody>
-      </Table>
+      <div className='table-body'>
+
+
+        <Table hover >
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Address</th>
+              <th>City</th>
+              <th>Country</th>
+              <th>Property Type</th>
+              <th>Price</th>
+              {Portfoliovalue ? <th>Feet Owned</th> : ""}
+            </tr>
+          </thead>
+          <tbody>{properties ? renderProperties() : "Loading...."}</tbody>
+        </Table>
+      </div>
       <div className='pagination-main-div'>
         <Pagination className='Pagination-main'>
           <PaginationItem disabled={currentPage === 0}>

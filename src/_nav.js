@@ -21,9 +21,10 @@ import {
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
 const _nav = [
+  // new comments
   {
     component: CNavItem,
-    name: 'Dashboard',
+    name: 'Property List',
     to: '/dashboard',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
     // badge: {
@@ -31,6 +32,11 @@ const _nav = [
     //   text: 'NEW',
     // },
   },
+
+
+
+
+
   // {
   //   component: CNavTitle,
   //   name: 'Theme',
@@ -47,6 +53,8 @@ const _nav = [
   //   to: '/theme/typography',
   //   icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
   // },
+
+  // new comment
   {
     component: CNavTitle,
     name: 'Components',
@@ -74,18 +82,26 @@ const _nav = [
   //     // },
   //   ],
   // },
+
+  // new comment
   {
     component: CNavItem,
-    name: 'My Portfolio',
-    to: '/portfolio',
+    name: 'Add Property',
+    to: '/property',
     icon: <CIcon icon={cilHouse} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
-    name: 'Explore',
-    to: '/explore',
-    icon: <CIcon icon={cilHome} customClassName="nav-icon" />,
+    name: 'Control Panel',
+    to: '/controlpanel',
+    icon: <CIcon icon={cilDescription} customClassName="nav-icon" />,
   },
+  // {
+  //   component: CNavItem,
+  //   name: 'Explore',
+  //   to: '/explore',
+  //   icon: <CIcon icon={cilHome} customClassName="nav-icon" />,
+  // },
   // {
   //   component: CNavItem,
   //   name: 'wallets',
@@ -116,29 +132,42 @@ const _nav = [
   //   to: '/charts',
   //   icon: <CIcon icon={cilChart} customClassName="nav-icon" />,
   // },
-  {
-    component: CNavGroup,
-    name: 'Settings',
-    to: '/buttons',
-    icon: <CIcon icon={cilCursor} customClassName="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: 'Profile',
-        to: '/Setting/Profile',
-      },
-      // {
-      //   component: CNavItem,
-      //   name: 'Others',
-      //   to: '/Setting/Others',
-      // },
-      {
-        component: CNavItem,
-        name: 'Privacy Settings',
-        to: '/Setting/Provicy',
-      },
-    ],
-  },
+
+  // new comment
+  // {
+  //   component: CNavGroup,
+  //   name: 'Settings',
+  //   to: '/buttons',
+  //   icon: <CIcon icon={cilCursor} customClassName="nav-icon" />,
+  //   items: [
+  //     {
+  //       component: CNavItem,
+  //       name: 'Profile',
+  //       to: '/Setting/Profile',
+  //     },
+  //     // {
+  //     //   component: CNavItem,
+  //     //   name: 'Others',
+  //     //   to: '/Setting/Others',
+  //     // },
+  //     {
+  //       component: CNavItem,
+  //       name: 'Change Password',
+  //       to: '/PasswordChange',
+  //     },
+  //     {
+  //       component: CNavItem,
+  //       name: 'Verify Account',
+  //       to: '/VerificationPage',
+  //     },
+  //     // {
+  //     //   component: CNavItem,
+  //     //   name: 'Privacy Settings',
+  //     //   to: '/buttons',
+       
+  //     // },
+  //   ],
+  // },
   // {
   //   component: CNavGroup,
   //   name: 'Wallets',

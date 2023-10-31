@@ -10,7 +10,7 @@ const Fallback = () => {
                 <Col md="4" className='fallback'>
                     {/* <FaSpinner  /> */}
                     <div className="loader"></div>
-                    <h1>Investor DashBoard</h1>
+                    <h1>Management Dashboard</h1>
                 </Col>
                 <Col md='4'></Col>
             </Row>

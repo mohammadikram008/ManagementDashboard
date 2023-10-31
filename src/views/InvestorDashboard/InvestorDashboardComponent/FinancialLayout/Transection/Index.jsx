@@ -2,6 +2,8 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { Col, Row } from 'reactstrap'
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import axios from 'axios';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
   Table,
   Input,
@@ -12,12 +14,58 @@ import {
   PaginationLink,
   Button,
 } from "reactstrap";
+import Modal from 'react-modal';
 import ReactPaginate from "react-js-pagination";
+import { Column } from 'jspdf-autotable';
 
 
 const Index = () => {
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      display: 'flex',
+      flexdireaction: 'column',
+      // marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+    },
+  };
+  const navigate = useNavigate();
+  const location = useLocation();
+  console.log("transactiontable", location);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [properties, setProperties] = useState([]);
+  const [transactions, setTransactions] = useState([]);
+  const [viewimg, setViewImage] = useState("");
+  useEffect(() => {
+    // Fetch property details when the component mounts
+    // const fetchProperty = async () => {
+    //   try {
+    //     const response = await axios.get(`http://localhost:3005/api/tasks/properties`);
+    //     // console.log("data",response.data)
+    //     setProperties(response.data);
+    //   } catch (error) {
+    //     console.error('Error fetching property details:', error);
+    //   }
+    // };
 
-  const transactions = [
+    // fetchProperty();
+  }, []);
+  useEffect(() => {
+    // if (Array.isArray(properties) && properties.length > 0) {
+    //   const allTransactions = properties.reduce((all, property) => {
+    //     return all.concat(property.transactions);
+    //   }, []);
+    // setTransactions(allTransactions);
+    // setFilteredTransactions(allTransactions);
+    setTransactions(location.state.transactions);
+    setFilteredTransactions(location.state.transactions);
+    // }
+  }, []);
+  // console.log('transactions:', transactions);
+  const transactionss = [
     {
       id: 1,
       date: '2023-07-01',
@@ -99,51 +147,10 @@ const Index = () => {
       balance: 275.0,
     },
   ];
-  // const pageSize = 5; // Number of items per page
-  // const [currentPage, setCurrentPage] = useState(0);
-  // const [startDate, setStartDate] = useState("");
-  // const [endDate, setEndDate] = useState("");
-  // const [filteredTransactions, setFilteredTransactions] = useState([]);
 
-  // const handlePageClick = (pageIndex) => {
-  //   setCurrentPage(pageIndex);
-  // };
-
-  // const filterTransactions = () => {
-  //   let filtered = transactions;
-
-  //   if (startDate && endDate) {
-  //     // Filter transactions based on the date range
-  //     filtered = filtered.filter((transaction) => {
-  //       const transactionDate = new Date(transaction.date);
-  //       const start = new Date(startDate);
-  //       const end = new Date(endDate);
-  //       return transactionDate >= start && transactionDate <= end;
-  //     });
-  //   }
-
-  //   return filtered;
-  // };
-
-  // const renderTransactions = () => {
-  //   const filteredTransactions = filterTransactions();
-  //   const startIndex = currentPage * pageSize;
-  //   const endIndex = startIndex + pageSize;
-
-  //   return filteredTransactions.slice(startIndex, endIndex).map((transaction) => (
-  //     <tr key={transaction.id}>
-  //       <td>{transaction.id}</td>
-  //       <td>{transaction.date}</td>
-  //       <td>{transaction.amount}</td>
-  //       <td>{transaction.account}</td>
-  //       <td>{transaction.comments}</td>
-  //       <td>{transaction.balance}</td>
-  //     </tr>
-  //   ));
-  // };
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [filteredTransactions, setFilteredTransactions] = useState(transactions);
+  let [filteredTransactions, setFilteredTransactions] = useState(transactions);
 
   const filterTransactions = () => {
     if (startDate && endDate) {
@@ -161,59 +168,120 @@ const Index = () => {
       setFilteredTransactions(transactions);
     }
   };
+  const handleNavigation =  () => {
+    navigate('/TransactionForm', { state: location.state });
+  }
+  const handleUploadAllTransaction = async (e) => {
+    e.preventDefault();
+    // console.log("checkapi",transactions)
+    axios.post('http://localhost:3005/api/tasks/addalltransactions', transactions)
+    .then((response) => {
+      console.log("res",response)
+      alert("Monthly transaction uploaded")
+      // Handle the API response, e.g., show a success message
+    })
+    .catch((error) => {
+      // Handle any errors
+      console.error('Error adding data:', error);
+      alert(error)
+    });
+  
 
-  const renderTransactions = () => {
-    return filteredTransactions.map((transaction,index) => (
-      <tr key={transaction.id}>
-         <td>{index}</td>
-        <td>{transaction.date}</td>
-        <td>{transaction.amount}</td>
-        <td>{transaction.account}</td>
-        <td>{transaction.comments}</td>
-        <td>{transaction.balance}</td>
-      </tr>
-    ));
-  };
-  return (
-    <Fragment>
-      <div className='date-div'>
-        <FormGroup className='date-form mt-3'>
-          <Label for="startDate">From :</Label>
-          <Input
-            type="date"
-            id="startDate"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            // onBlur={() => filterTransactions()}
-          />
-        </FormGroup>
-        <FormGroup className='date-form mt-3'>
-          <Label  for="endDate" className='lb' >To :</Label>
-          <Input
-            type="date"
-            id="endDate"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-            // onBlur={() => filterTransactions()}
-          />
-        </FormGroup>
-        <Button className='btn-transection btn-filter ' onClick={filterTransactions}>Search</Button>
-        {/* <button className='btn-transection btn-filter ' onClick={() => handleFilterClick()}>Filter</button> */}
-      </div>
-      <Table hover responsive >
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Date</th>
-            <th>Amount</th>
-            <th>Account</th>
-            <th>Comments</th>
-            <th>Balance</th>
-          </tr>
-        </thead>
-        <tbody>{renderTransactions()}</tbody>
-      </Table>
-      {/* <Pagination>
+}
+
+// const handleDownloadPdf = (props) => {
+//   // navigate("/viewimage", { state: props });
+
+// }
+const openModal = (image) => {
+  // setSelectedImage(image);
+  setViewImage(image);
+  setModalIsOpen(true);
+};
+
+const closeModal = () => {
+  // setSelectedImage(null);
+  setModalIsOpen(false);
+};
+const renderTransactions = () => {
+  // if (!Array.isArray(filteredTransactions)) {
+  //   filteredTransactions = [];
+  // }
+  return filteredTransactions.map((transactions, index) => (
+    <tr key={transactions._id}>
+      <td>{index}</td>
+      <td>{transactions.date}</td>
+      <td>{transactions.amount}</td>
+      <td>{transactions.account}</td>
+      <td>{transactions.comments}</td>
+      <td>{transactions.balance}</td>
+      <button className='btn-transection ' onClick={() => openModal(transactions.image)}>View Image</button>
+      {/* <td><a href={`http://localhost:3005/${transactions.image}`}>view Image</a></td> */}
+    </tr>
+  ));
+};
+
+return (
+  <Fragment>
+    {modalIsOpen ?
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        // className="modal-viewimage"
+        overlayClassName="modal-overlay"
+        style={customStyles}
+      >
+        <img
+          src={`http://localhost:3005/${viewimg}`}
+          alt="Not Uploaded"
+          style={{ maxWidth: '100%' }}
+        />
+        <button onClick={closeModal} className="btn-closedmodel" >Close</button>
+      </Modal> : ""
+    }
+    <div className='date-div'>
+      <FormGroup className='date-form mt-3'>
+        <Label for="startDate">From :</Label>
+        <Input
+          type="date"
+          id="startDate"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+
+        />
+      </FormGroup>
+      <FormGroup className='date-form mt-3'>
+        <Label for="endDate" className='lb' >To :</Label>
+        <Input
+          type="date"
+          id="endDate"
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
+
+        />
+      </FormGroup>
+      <Button className='btn-transection btn-filter ' onClick={filterTransactions}>Search</Button>
+
+    </div>
+    <Table hover responsive >
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Date</th>
+          <th>Amount</th>
+          <th>Account</th>
+          <th>Comments</th>
+          <th>Balance</th>
+          <th>Slip Image</th>
+
+        </tr>
+      </thead>
+      <tbody>{properties ? renderTransactions() : "Loading..."}</tbody>
+    </Table>
+    <Button className='btn-transection btn-filter ' onClick={handleNavigation}>Add Transaction</Button>
+    <Button className='btn-transection btn-filter ' onClick={handleUploadAllTransaction}>Upload Transaction</Button>
+    {/* <img src={`http://localhost:3005/${img}`} className="img-responsive" alt="Apartment" /> */}
+    {/* <Pagination>
         <PaginationItem disabled={currentPage === 0}>
           <PaginationLink previous onClick={() => handlePageClick(currentPage - 1)} />
         </PaginationItem>
@@ -226,8 +294,8 @@ const Index = () => {
           <PaginationLink next onClick={() => handlePageClick(currentPage + 1)} />
         </PaginationItem>
       </Pagination> */}
-    </Fragment>
-  )
+  </Fragment>
+)
 }
 
 export default Index

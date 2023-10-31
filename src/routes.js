@@ -1,6 +1,21 @@
 import React from 'react'
 //property
 const Properties = React.lazy(() => import('./views/explore/propertyhome/Properties'))
+const TranactionForm = React.lazy(() => import('./views/Transactionform/Index'))
+const TransactionTable=React.lazy(() => import('./views/InvestorDashboard/InvestorDashboardComponent/FinancialLayout/Transection/Index'))
+const AddProperty = React.lazy(() => import('./views/AddProperty/Index'))
+const ControlPanel = React.lazy(() => import('./views/ControlPanal/Index'))
+const ViewImageModel = React.lazy(() => import('./views/ViewImage/Index'))
+const VerifyTransactions = React.lazy(() => import('./views/VerifyTransaction/Index'))
+const AddManager = React.lazy(() => import('./views/AddManagers/Index'))
+const AllManager = React.lazy(() => import('./views/AddManagers/ManagerAcces'))
+
+
+
+
+
+
+
 const OwnerAcess = React.lazy(() => import('./views/explore/ownerpropertydertail/OwnerProperty'))
 const SingleProperty = React.lazy(() => import('./views/explore/propertydetail/PropertyDetail'))
 const Portfolio = React.lazy(() => import('./views/portfolio/Portfolio'))
@@ -70,10 +85,23 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
+  { path: '/TransactionForm', name: 'TransactionForm', element: TranactionForm },
+  { path: '/TransactionTable', name: 'TransactionTable', element: TransactionTable },
+  { path: '/property', name: 'property', element: AddProperty },
+  { path: '/controlpanel', name: 'controlpanel', element: ControlPanel },
+  { path: '/viewimage', name: 'viewimage', element: ViewImageModel },
+  { path: '/verifytransactios', name: 'VerifyTransactions', element: VerifyTransactions },
+  { path: '/addmanager', name: 'addmanager', element: AddManager },
+  { path: '/allmanager', name: 'allmanager', element: AllManager },
+
+
+
+
+  
   { path: '/explore', name: 'Properties', element: Properties },
   { path: '/explore/OwnerAcess', name: 'OwnerAcces', element: OwnerAcess },
   { path: '/explore/propertydetail', name: 'Property Details', element: SingleProperty },
-  { path: '/Setting/Profile', name: 'Profile Settings', element: Profile },
+  { path: '/Setting/Profile', name: 'Profile Settings', element: Login },
   { path: '/Setting/Provicy', name: 'Privacy Settings', element: PrivacySettings },
   { path: '/portfolio', name: 'My Portfolio', element: Portfolio },
   { path: '/login', name: 'Login', element: Login},
@@ -82,6 +110,7 @@ const routes = [
   { path: '/PasswordChange', name: 'PasswordChange', element: PasswordChange},
   { path: '/ForgotPassword', name: 'ForgotPassword', element: ForgotPassword},
 
+  
   { path: '/wallet', name: 'Wallet', element: Wallet},
   { path: '/market', name: 'Market', element: Market},
   { path: '/trade', name: 'Trade', element: Trade},
