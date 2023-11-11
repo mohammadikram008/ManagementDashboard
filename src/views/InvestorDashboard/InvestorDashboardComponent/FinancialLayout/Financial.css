@@ -91,3 +91,15 @@
     justify-content: center;
     align-items: center;
 }
+.model-delete{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.is-danger{
+    background-color: red;
+    margin-right: 2rem;
+}
+.no-btn{
+    border: 1px solid;
+}

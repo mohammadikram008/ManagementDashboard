@@ -5,10 +5,16 @@ import { Col, Row } from 'reactstrap'
 import { Container, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import VerifyTransaction from './VerifyTransaction'
 import ViewAllTransactions from './ViewAllTransactions'
+import Properties from '../explore/propertyhome/Properties';
+import Pagination from '../Paginations/PropertiesPagination/Index'
 const Index = () => {
     const [transactionstate, setTransactionState] = useState();
     const [transactions, setTransactions] = useState([]);
 
+
+    const handleState = (props) => {
+        setTransactionState(props);
+    }
     useEffect(() => {
 
         const fetchProperty = async () => {
@@ -18,55 +24,39 @@ const Index = () => {
                 setTransactions(response.data);
             } catch (error) {
                 console.error('Error fetching property details:', error);
+                // toast.info(`${error}`, { autoClose: 2000 });
             }
         };
 
         fetchProperty();
     }, []);
-    console.log("length", transactions.length)
-    const handleState = (props) => {
-        setTransactionState(props);
-    }
+    console.log("tra", transactions)
 
     return (
         <Fragment>
-
-            <Row className='m-0'>
-                <Col md='4'>
-                    {/* <Link to="/verifytransactios" className='links'> */}
-
+            {/* 
+            <div className='change-pass-main-div mb-3'>
+                <h2>Verification Transactions </h2>
+            </div> */}
+            {/* <Properties transactions={transactions} /> */}
+            <Pagination properties={transactions}/>
+            {/* <VerifyTransaction /> */}
+            {/* <Col md='4'>
+                
                     <Button className='btn-login' onClick={() => handleState("verifytransaction")}>
                         Verify Transaction {transactions.length}
                     </Button>
-                    {/* <div className='btn-login' onClick={() => handleState("verifytransaction")}>
-                        <span >
-                            Verify Transaction     {transactions.length}
-                        </span>
-                    </div> */}
-                    {/* </Link> */}
-                </Col>
-                <Col md='4'>
+                    
+                </Col> */}
+            {/* <Col md='4'>
                     <Button className='btn-login' onClick={() => handleState("veiwalltransactions")}>
                         Veiw All Transactions
                     </Button>
-                    {/* <Link to="/verifytransactios" className='links'> */}
-                    {/* <div className='btn-login' onClick={() => handleState("veiwalltransactions")}>
-                        <span>
-                            Veiw All Transactions
-                        </span>
-                    </div> */}
-                    {/* </Link> */}
-                </Col>
+                   
+                </Col> */}
 
-            </Row>
-            <Row className='m-0 mt-5'>
-                <Col>
-                    {
-                        transactionstate && transactionstate === "verifytransaction" ? <VerifyTransaction /> : transactionstate === "veiwalltransactions" ? <ViewAllTransactions /> : ""
 
-                    }
-                </Col>
-            </Row>
+
 
 
         </Fragment>

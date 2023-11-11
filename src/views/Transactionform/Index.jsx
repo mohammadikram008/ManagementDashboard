@@ -1,28 +1,34 @@
 import React, { Fragment, useState } from 'react';
 import { Container, Form, FormGroup, Label, Input, Button } from 'reactstrap';
-
-import { Link, useNavigate,useLocation } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 // import { Elements, CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 // import { loadStripe } from '@stripe/stripe-js';
 
 // const stripePromise = loadStripe('sk_test_51NzDfpBuGdpsayKMf1fdpJdhUH5H5sPEWW7EfyEDUaUrkvA1ICRe0J3MuoISm6tebqlrUapDE35u0xtw1I0Sfoxa00QyjZJIF8');
 import axios from 'axios';
+import { useEffect } from 'react';
 
 const Index = () => {
-   const location=useLocation()
-   console.log("newlocation",location.state._id)
-   const id=location.state._id;
+    const location = useLocation()
+    console.log("newlocation", location)
+
+    const id = location.state._id;
+    const PropertyId = location.state.id;
+    console.log("image", location.state.image)
     const [formData, setFormData] = useState({
-        amount: '',
-        account: '',
-        comments: '',
-        balance: '',
+        amount: location.state.amount || '',
+        account: location.state.account || '',
+        comments: location.state.comments || '',
+        balance: location.state.balance || '',
 
         // To store the selected payment method
     });
 
-    const [startDate, setStartDate] = useState("");
-    const [selectedFile, setSelectedFile] = useState(null);
+
+    const [startDate, setStartDate] = useState(location.state.date || '');
+    const [selectedFile, setSelectedFile] = useState(location.state.image || "");
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -30,7 +36,7 @@ const Index = () => {
             [name]: value,
         });
     };
-
+    console.log("image", selectedFile)
 
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
@@ -41,6 +47,7 @@ const Index = () => {
 
         try {
             const formDatas = new FormData();
+            formDatas.append('id', id);
             formDatas.append('amount', formData.amount);
             formDatas.append('account', formData.account);
             formDatas.append('comments', formData.comments);
@@ -48,30 +55,53 @@ const Index = () => {
             formDatas.append('balance', formData.balance);
             formDatas.append('image', selectedFile);
             console.log("formdatas", selectedFile)
-            
 
-            // Send the user profile data and selected payment method details to your API here
-            // Example: await axios.post('/api/profile', { ...formData, paymentMethodData });
-            await axios.post(`http://localhost:3005/api/tasks/addtransaction/${id}/transactions`, formDatas).then((response) => {
-                // Handle the API response here
+            if (PropertyId) {
+                await axios.put(`http://localhost:3005/api/tasks/properties/${PropertyId}/transactions/${id}`, formDatas).then((response) => {
+                    // Handle the API response here
+                    // Clear the form fields
+                    setFormData({
+                        amount: '',
+                        account: '',
+                        comments: '',
+                        balance: '',
+                    });
 
-                // Clear the form fields
-                setFormData({
-                    amount: '',
-                    account: '',
-                    comments: '',
-                    balance: '',
-                });
+                    // alert("Tansaction Added Successfully")
+                    toast.info(`Tansaction Updated Successfully`, { autoClose: 2000 });
+                })
+                    .catch((error) => {
+                        // Handle any errors
+                        console.error('Error uploading image:', error);
+                        toast.info(`${error}`, { autoClose: 2000 });
+                    });
 
-                alert("Tansaction Added Successfully")
-            })
-                .catch((error) => {
-                    // Handle any errors
-                    console.error('Error uploading image:', error);
-                });
+            } else {
 
+
+
+                await axios.post(`http://localhost:3005/api/tasks/addtransaction/${id}/transactions`, formDatas).then((response) => {
+                    // Handle the API response here
+                    // Clear the form fields
+                    setFormData({
+                        amount: '',
+                        account: '',
+                        comments: '',
+                        balance: '',
+                    });
+
+                    // alert("Tansaction Added Successfully")
+                    toast.info(`Tansaction Added Successfully`, { autoClose: 2000 });
+                })
+                    .catch((error) => {
+                        // Handle any errors
+                        console.error('Error uploading image:', error);
+                        toast.info(`${error}`, { autoClose: 2000 });
+                    });
+            }
         } catch (error) {
             console.error('Error submitting  form:', error);
+            toast.info(`${error}`, { autoClose: 2000 });
         }
     };
     return (
@@ -141,15 +171,19 @@ const Index = () => {
                             <Label for="balance">Add slip</Label>
                             <Input
                                 type="file" accept="image/*" onChange={handleFileChange}
+
                             />
+                            {/* <span>Selected file: {selectedFile ? selectedFile: 'No file selected'}</span> */}
+
                         </FormGroup>
 
                         <Button className='btn-login' type="submit">
-                            Add Transaction
+                            {PropertyId ? "Update Transaction" : "Add Transaction"}
                         </Button>
                     </Form>
                 </div>
             </Container>
+            <ToastContainer />
         </Fragment>
     )
 }

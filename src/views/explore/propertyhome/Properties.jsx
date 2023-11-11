@@ -1,4 +1,4 @@
-import React, { Fragment, useState,useEffect } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import { Col, Row } from 'reactstrap'
 import pro3 from '../../../assets/images/pro3.jpg'
 import { Link, useNavigate } from 'react-router-dom';
@@ -10,22 +10,39 @@ import axios from 'axios';
 import Pagination from '../../Paginations/PropertiesPagination/Index'
 //slider 
 import { UncontrolledCarousel } from 'reactstrap';
-const Properties = () => {
+const Properties = (props ) => {
+    // console.log("propps", props.transactions.map((i) => i.id))
+    // const [trans, setTrans] = useState(props.transactions.map((i) => i.id));
+
     const [properties, setProperty] = useState("");
+
     useEffect(() => {
-      // Fetch property details when the component mounts
-      const fetchProperty = async () => {
-        try {
-          const response = await axios.get(`http://localhost:3005/api/tasks/properties`);
-          console.log("data", response.data)
-          setProperty(response.data);
-        } catch (error) {
-          console.error('Error fetching property details:', error);
-        }
-      };
-  
-      fetchProperty();
+        // Fetch property details when the component mounts
+        const fetchProperty = async () => {
+            try {
+                console.log("t2")
+                const response = await axios.get(`http://localhost:3005/api/tasks/properties`);
+                console.log("data2", response.data)
+                setProperty(response.data);
+                // if (props) {
+                //     console.log("t",trans)
+                //     const response = await axios.post(`http://localhost:3005/api/tasks/getallapp`,props.transactions.map((i) => i.id));
+                //     console.log("data1", response.data)
+                //     setProperty(response.data);
+                // } else {
+                //     console.log("t2")
+                //     const response = await axios.get(`http://localhost:3005/api/tasks/properties`);
+                //     console.log("data2", response.data)
+                //     setProperty(response.data);
+                // }
+            } catch (error) {
+                console.error('Error fetching property details:', error);
+            }
+        };
+
+        fetchProperty();
     }, []);
+   
     const datas = Array.from({ length: 100 }, (_, index) => `Item PKR{index + 1}`);
     const propertyData = [
         {
@@ -163,11 +180,11 @@ const Properties = () => {
 
         // Add more properties as needed
     ];
-   
+
     const navigate = useNavigate();
     const handleNavigation = (prop) => {
 
-        console.log("prop", prop)
+        console.log("properties", properties)
         // window.open('https://65043945a24bc40b8f20810e--melodic-pudding-312f80.netlify.app/#/dashboard', '_blank');
         navigate('/property/propertydetail', { state: prop });
         // const storedData = localStorage.getItem('login');

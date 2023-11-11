@@ -3,6 +3,11 @@ import axios from 'axios';
 import Modal from 'react-modal';
 import ReactPaginate from 'react-paginate';
 import Select from "react-select";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { FaEdit, FaTrash, FaSync } from 'react-icons/fa';
+import { BiLinkExternal } from 'react-icons/bi';
+import { IoMdDoneAll } from 'react-icons/io';
 import {
   Table,
   Button,
@@ -18,8 +23,10 @@ import {
   PaginationItem,
   PaginationLink,
 } from "reactstrap";
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { BiFilterAlt } from 'react-icons/bi';
 const VerifyTransaction = () => {
+  const navigation = useNavigate();
   const pageSize = 10;
   const [currentPage, setCurrentPage] = useState(0);
   const [transactions, setTransactions] = useState([]);
@@ -34,6 +41,22 @@ const VerifyTransaction = () => {
   const toggle = () => {
     setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+
+    const fetchProperty = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3005/api/tasks/getapprovedtransaction`);
+        console.log("approd", response.data.map((i) => i.id))
+        setTransactions(response.data.map((i) => i.id));
+      } catch (error) {
+        console.error('Error fetching property details:', error);
+        toast.info(`${error}`, { autoClose: 2000 });
+      }
+    };
+
+    fetchProperty();
+  }, []);
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -53,38 +76,58 @@ const VerifyTransaction = () => {
   const handlePageClick = (pageIndex) => {
     setCurrentPage(pageIndex);
   };
-  const handleApproved = async (props) => {
-    console.log("id", props)
+  const handleDeleteTransaction = async (props) => {
+    console.log("delid", props)
     try {
-      const response = await axios.get(`http://localhost:3005/api/tasks/deleteapprovedtransaction/${props}`);
-      alert(response.message);
+      const response = await axios.delete(`http://localhost:3005/api/tasks/deleteunapprovedtransaction/${props._id}`);
+      // alert(response.message);
+      toast.info(`Deteled`, { autoClose: 2000 });
 
     } catch (error) {
       console.error('Error fetching property details:', error);
+      toast.info(`${error}`, { autoClose: 2000 });
+    }
+  };
+  const handleApproved = async (props) => {
+
+    try {
+      const response = await axios.post(`http://localhost:3005/api/tasks/deleteapprovedtransaction/${props.id}`, props);
+      // alert(response.message);
+      toast.info(`Approved`, { autoClose: 2000 });
+
+    } catch (error) {
+      console.error('Error fetching property details:', error);
+      toast.info(`${error}`, { autoClose: 2000 });
     }
   }
-  const renderProperties = () => {
-    let filteredProperties = filterProperties();
-    const startIndex = currentPage * pageSize;
-    const endIndex = startIndex + pageSize;
-    if (!Array.isArray(filteredProperties)) {
-      filteredProperties = [];
+  const handleIconClick = (action, property) => {
+    // Implement your logic here based on the action (edit, delete, update)
+    // You can navigate to different pages, make API requests, etc.
+    console.log("action", action)
+    switch (action) {
+      case 'edit':
+        navigation('/TransactionForm', { state: property })
+        // Handle edit action
+        break;
+      case 'delete':
+        handleDeleteTransaction(property)
+        break;
+      case 'approved':
+        handleApproved(property);
+        // Handle update action
+        break;
+      default:
+        break;
     }
-    return filteredProperties.slice(startIndex, endIndex).map((property, index) => (
-      <tr key={property._id} onClick={() => handleNavigation(property)} className='table-row-data'>
-        <td>{index}</td>
-        <td>{property.account}</td>
-        <td>{property.amount}</td>
-        <td>{property.balance}</td>
-        <td>{property.comments}</td>
-        <button className='btn-transection ' onClick={() => openModal(property.image)}>View Image</button>
-        <button className='btn-transection  mx-3' onClick={() => handleApproved(property._id)}>Approved</button>
-      </tr>
-    ));
-  };
 
+  }
   const filterProperties = () => {
-    let filtered = transactions;
+
+    // let filtered = transactions.map((i)=>(i));
+    // let filtered = transactions.map((item)=>(item.transactions))
+    console.log("transactions", transactions.map((i) => i.map((e) => e)))
+    let filtered = transactions.map((i) => i.map((e) => e));
+
 
     if (filterCity) {
       filtered = filtered.filter((property) =>
@@ -110,6 +153,95 @@ const VerifyTransaction = () => {
 
     return filtered;
   };
+  const renderProperties = () => {
+    let filteredProperties = filterProperties();
+    console.log("new", filteredProperties)
+    const startIndex = currentPage * pageSize;
+    const endIndex = startIndex + pageSize;
+    if (!Array.isArray(filteredProperties)) {
+      filteredProperties = [];
+    }
+    // return filteredProperties.slice(startIndex, endIndex).map((property, index) => (
+    //   <tr key={property._id} onClick={() => handleNavigation(property)} className='table-row-data'>
+    //     <td>{property}</td>
+    //     <td>{index}</td>
+    //     <td>{property.date}</td>
+    //     <td>{property.account}</td>
+    //     <td>{property.amount}</td>
+    //     <td>{property.comments}</td>
+    //     <td> <BiLinkExternal
+    //       className="icon"
+    //       data-tip="View image"
+    //       onClick={() => openModal(property.image)}
+    //     // onClick={() => this.handleIconClick('edit')}
+    //     /></td>
+    //     <td>
+    //       <FaEdit
+    //         className="icon "
+    //         onClick={() => handleIconClick('edit',property)}
+    //         // onMouseEnter={() => handleIconHover('edit')}
+    //         data-tip="Edit"
+    //       />
+    //       <FaTrash
+    //         className="icon mx-2"
+    //         onClick={() => handleIconClick('delete',property)}
+    //         data-tip="Delete"
+    //       // onMouseEnter={() => handleIconHover('delete')}
+    //       />
+    //       <IoMdDoneAll
+    //         className="icon mx-2"
+    //         onClick={() => handleIconClick('approved',property)}
+    //         data-tip="Update"
+    //       // onMouseEnter={() => handleIconHover('update')}
+    //       />
+    //     </td>
+    //     {/* <button className='btn-transection ' onClick={() => openModal(property.image)}>View Image</button>
+    //     <button className='btn-transection  mx-3' onClick={() => handleApproved(property._id)}>Approved</button> */}
+    //   </tr>
+    // ));
+    return filteredProperties.slice(startIndex, endIndex).map((i) => (i.map((property, index) => (
+
+      <tr key={index} onClick={() => handleNavigation(property)} className='table-row-data'>
+        <td>{index}</td>
+        <td>{property.date}</td>
+        <td>{property.account}</td>
+        <td>{property.amount}</td>
+        <td>{property.comments}</td>
+        <td> <BiLinkExternal
+          className="icon"
+          data-tip="View image"
+          onClick={() => openModal(property.image)}
+        // onClick={() => this.handleIconClick('edit')}
+        /></td>
+        <td>
+          <FaEdit
+            className="icon "
+            onClick={() => handleIconClick('edit', property)}
+            // onMouseEnter={() => handleIconHover('edit')}
+            data-tip="Edit"
+          />
+          <FaTrash
+            className="icon mx-2"
+            onClick={() => handleIconClick('delete', property)}
+            data-tip="Delete"
+          // onMouseEnter={() => handleIconHover('delete')}
+          />
+          <IoMdDoneAll
+            className="icon mx-2"
+            onClick={() => handleIconClick('approved', property)}
+            data-tip="Update"
+          // onMouseEnter={() => handleIconHover('update')}
+          />
+        </td>
+        {/* <button className='btn-transection ' onClick={() => openModal(property.image)}>View Image</button>
+        <button className='btn-transection  mx-3' onClick={() => handleApproved(property._id)}>Approved</button> */}
+      </tr>
+    ))
+
+    ));
+  };
+
+
 
   const handleNavigation = (prop) => {
 
@@ -117,20 +249,7 @@ const VerifyTransaction = () => {
   };
 
 
-  useEffect(() => {
 
-    const fetchProperty = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3005/api/tasks/getapprovedtransaction`);
-        console.log("approd", response.data)
-        setTransactions(response.data);
-      } catch (error) {
-        console.error('Error fetching property details:', error);
-      }
-    };
-
-    fetchProperty();
-  }, []);
 
   const openModal = (image) => {
     // setSelectedImage(image);
@@ -161,20 +280,57 @@ const VerifyTransaction = () => {
         </Modal> : ""
       }
 
-      {transactions.length > 0 ?
+      <div>
+        <div className='table-body'>
+
+          <Table  >
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Date</th>
+                <th>Account</th>
+                <th>Amount</th>
+                <th>Comments</th>
+                <th>Image</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>{transactions ? renderProperties() : "Loading..."}</tbody>
+          </Table>
+        </div>
+        <div className='pagination-main-div'>
+          <Pagination className='Pagination-main'>
+            <PaginationItem disabled={currentPage === 0}>
+              <PaginationLink previous onClick={() => handlePageClick(currentPage - 1)} />
+            </PaginationItem>
+            {Array.from({ length: Math.ceil(filterProperties().length / pageSize) }).map((_, index) => (
+              <PaginationItem key={index} active={index === currentPage}>
+                <PaginationLink onClick={() => handlePageClick(index)}>
+                  {index + 1}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+            <PaginationItem disabled={currentPage === Math.ceil(filterProperties().length / pageSize) - 1}>
+              <PaginationLink next onClick={() => handlePageClick(currentPage + 1)} />
+            </PaginationItem>
+          </Pagination>
+        </div>
+      </div>
+      {/* {transactions.length > 0 ?
 
         <div>
           <div className='table-body'>
 
-            <Table hover >
+            <Table  >
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>account</th>
-                  <th>amount</th>
-                  <th>balance</th>
-                  <th>comments</th>
-                  <th>image</th>
+                  <th>Date</th>
+                  <th>Account</th>
+                  <th>Amount</th>
+                  <th>Comments</th>
+                  <th>Image</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>{transactions ? renderProperties() : "Loading..."}</tbody>
@@ -200,7 +356,8 @@ const VerifyTransaction = () => {
         </div>
         : "No Transaction yet!"
 
-      }
+      } */}
+      <ToastContainer />
     </Fragment>
   )
 }

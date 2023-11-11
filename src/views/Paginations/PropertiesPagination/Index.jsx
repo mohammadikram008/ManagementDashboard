@@ -20,7 +20,7 @@ import {
 } from "reactstrap";
 import { BiFilterAlt } from 'react-icons/bi';
 import axios from 'axios';
-const Index = ({ properties, Portfolio }) => {
+const Index = ({ properties, Portfolio, addmanager, selectedProperties, onSelectedPropertiesChange }) => {
 
 
   console.log("properties", properties);
@@ -45,7 +45,17 @@ const Index = ({ properties, Portfolio }) => {
   const handlePageClick = (pageIndex) => {
     setCurrentPage(pageIndex);
   };
+  const handleCheckboxChange = (propertyId) => {
+    const updatedSelectedProperties = [...selectedProperties];
+    if (updatedSelectedProperties.includes(propertyId)) {
+      updatedSelectedProperties.splice(updatedSelectedProperties.indexOf(propertyId), 1);
+    } else {
+      updatedSelectedProperties.push(propertyId);
+    }
 
+    // Call the parent component's callback function to update the selected properties
+    onSelectedPropertiesChange(updatedSelectedProperties);
+  };
   const renderProperties = () => {
     let filteredProperties = filterProperties();
     const startIndex = currentPage * pageSize;
@@ -57,6 +67,14 @@ const Index = ({ properties, Portfolio }) => {
     return filteredProperties.slice(startIndex, endIndex).map((property, index) => (
       <tr key={property.id} onClick={() => handleNavigation(property)} className='table-row-data'>
         <td>{index}</td>
+        <td> {addmanager ? <Input
+          type="checkbox"
+          id="filterPropertyType"
+          checked={selectedProperties.includes(property._id)}
+          onChange={() => handleCheckboxChange(property._id)}
+        >
+
+        </Input> : ""}</td>
         <td>{property.name}</td>
         <td>{property.address}</td>
         <td>{property.city}</td>
@@ -98,8 +116,9 @@ const Index = ({ properties, Portfolio }) => {
   };
 
   const handleNavigation = (prop) => {
-
-    navigate('/TransactionTable', { state: prop });
+    if (!addmanager) {
+      navigate('/TransactionTable', { state: prop });
+    }
   };
 
   return (
@@ -189,6 +208,7 @@ const Index = ({ properties, Portfolio }) => {
           <thead>
             <tr>
               <th>#</th>
+              <th> {addmanager ? "Access" : ""}</th>
               <th>Name</th>
               <th>Address</th>
               <th>City</th>

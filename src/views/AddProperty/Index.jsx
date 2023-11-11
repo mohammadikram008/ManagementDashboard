@@ -1,7 +1,8 @@
 import React, { Fragment, useState } from 'react'
 import axios from 'axios';
 import { Container, Form, FormGroup, Label, Input, Button } from 'reactstrap';
-
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Index = () => {
   const [propertyData, setPropertyData] = useState({
     name: '',
@@ -38,7 +39,8 @@ const Index = () => {
     try {
       const response = await axios.post('http://localhost:3005/api/tasks/properties', formDatas);
       if (response) {
-        alert("Property save SuccessFully")
+        // alert("Property save SuccessFully")
+        toast.info(`Property save SuccessFully`, { autoClose: 2000 })
         setPropertyData({
           name: '',
           address: '',
@@ -49,11 +51,13 @@ const Index = () => {
         });
         setSelectedFile("")
       } else {
-        alert("Error")
+        // alert("Error")
+        toast.info(`Error`, { autoClose: 2000 })
       }
       // Clear the form or provide feedback to the user
     } catch (error) {
       console.error('Error adding property:', error);
+      toast.info(`${error}`, { autoClose: 2000 });
     }
   }
   return (
@@ -139,6 +143,7 @@ const Index = () => {
           </Form>
         </div>
       </Container>
+      <ToastContainer/>
     </Fragment>
 
   )
