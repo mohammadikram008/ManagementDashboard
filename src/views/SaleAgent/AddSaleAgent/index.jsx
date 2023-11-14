@@ -4,12 +4,12 @@ import { Container, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 // import { loadStripe } from '@stripe/stripe-js';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Pagination from '../Paginations/PropertiesPagination/Index'
+import Pagination from '../../Paginations/PropertiesPagination/Index'
 // const stripePromise = loadStripe('sk_test_51NzDfpBuGdpsayKMf1fdpJdhUH5H5sPEWW7EfyEDUaUrkvA1ICRe0J3MuoISm6tebqlrUapDE35u0xtw1I0Sfoxa00QyjZJIF8');
 import axios from 'axios';
-import Properties from '../explore/propertyhome/Properties';
+import Properties from '../../explore/propertyhome/Properties';
 
-const Index = () => {
+const index = () => {
     const [formData, setFormData] = useState({
         email: '',
     });
@@ -82,36 +82,36 @@ const Index = () => {
     return (
         <Fragment>
             <div className='property-heading'>
-                <h1>Add Managers</h1>           
+                <h1>Add Sale Agents</h1>
             </div>
-            {/* <Container> */}
-                <Form onSubmit={handleSubmit} className='manger-form'>
+            <Container>
+            <Form onSubmit={handleSubmit} className='manger-form'>
 
-                    <FormGroup className='inner-form-field'>
-                        <Label for="email">Email</Label>
-                        <Input
-                            type="email"
-                            name="email"
-                            id="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            required
-                        />
-                    </FormGroup>
+                <FormGroup className='inner-form-field'>
+                    <Label for="email">Email</Label>
+                    <Input
+                        type="email"
+                        name="email"
+                        id="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                    />
+                </FormGroup>
 
-                    <Button className='btn-login' type="submit">
-                        Submit
-                        
-                    </Button>
-                </Form>
+                <Button className='btn-login' type="submit">
+                    Submit
 
-                {/* <Pagination className="" properties={properties} itemsPerPage={5} addmanager={"addmanager"} selectedProperties={selectedProperties} onSelectedPropertiesChange={handleSelectedPropertiesChange} /> */}
-                <Pagination className="" properties={properties} manageremail="manageremail" />
+                </Button>
+            </Form>
 
-            {/* </Container> */}
+            {/* <Pagination className="" properties={properties} itemsPerPage={5} addmanager={"addmanager"} selectedProperties={selectedProperties} onSelectedPropertiesChange={handleSelectedPropertiesChange} /> */}
+            <Pagination className="" properties={properties} manageremail="manageremail" />
+
+            </Container>
             <ToastContainer />
         </Fragment>
     )
 }
 
-export default Index
+export default index

@@ -50,18 +50,21 @@ const Index = () => {
   const [viewimg, setViewImage] = useState("");
   useEffect(() => {
     // Fetch property details when the component mounts
-    // const fetchProperty = async () => {
-    //   try {
-    //     const response = await axios.get(`http://localhost:3005/api/tasks/properties`);
-    //     // console.log("data",response.data)
-    //     setProperties(response.data);
-    //   } catch (error) {
-    //     console.error('Error fetching property details:', error);
-    //   }
-    // };
+    const fetchProperty = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3005/api/tasks/properties/${Id}`);
+        // console.log("data",response.data)
+        const data=response.data
+        setTransactions(data.transactions);
 
-    // fetchProperty();
+      } catch (error) {
+        console.error('Error fetching property details:', error);
+      }
+    };
+
+    fetchProperty();
   }, []);
+  console.log("new property get ",properties)
   useEffect(() => {
     // if (Array.isArray(properties) && properties.length > 0) {
     //   const allTransactions = properties.reduce((all, property) => {

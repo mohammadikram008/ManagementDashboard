@@ -16,9 +16,10 @@ import {
   cilStar,
   cilWallet,
   cilHome,
-  cilHouse
+  cilHouse,
+  
 } from '@coreui/icons'
-import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
+import { CNavGroup, CNavItem, CNavTitle, } from '@coreui/react'
 
 const _nav = [
   // new comments
@@ -95,6 +96,12 @@ const _nav = [
     name: 'Control Panel',
     to: '/controlpanel',
     icon: <CIcon icon={cilDescription} customClassName="nav-icon" />,
+  },
+   {
+    component: CNavItem,
+    name: 'Sale Agent',
+    to: '/saleagent',
+    icon: <CIcon icon={cilNotes} customClassName="nav-icon" />,
   },
   // {
   //   component: CNavItem,

@@ -79,6 +79,7 @@ align-items:center;
   background-color: aliceblue;
   color: #CA974B;
   border:#CA974B 1px solid;
+  height: 3rem;
 }
 .btn-login:hover{
   background-color: #CA974B;
@@ -116,4 +117,17 @@ align-items:center;
 .change-pass-main-div h2{
   color: #CA974B;
 }
-
+.manger-form{
+  display: flex;
+  /* flex-direction: row; */
+  width: 70rem;
+  /* justify-content: center; */
+  align-items: center;
+  justify-content: space-between;
+  /* align-items: center; */
+}
+.inner-form-field{
+  width: 90%;
+  
+  
+}

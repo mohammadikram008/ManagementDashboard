@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { Col, Row } from 'reactstrap'
-import './controlPanel.css'
+
 import { Link } from 'react-router-dom'
 const Index = () => {
 
@@ -8,9 +8,9 @@ const Index = () => {
         <Fragment>
             <Row className='m-0'>
                 <Col md='4'>
-                    <Link to="/verifytransactions" className='links'>
+                    <Link to="/agentprofile" className='links'>
                         <div className='card-div'>
-                            Verifying Transactions
+                           Agent Profile
                         </div>
                     </Link>
                 </Col>
@@ -22,16 +22,16 @@ const Index = () => {
                     </Link>
                 </Col> */}
                 <Col md='4'>
-                    <Link to="/addmanager" className='links'>
+                    <Link to="/agentbalancecheck" className='links'>
                         <div className='card-div'>
-                            Add Managers
+                            Check Balance
                         </div>
                     </Link>
                 </Col>
                 <Col md='4'>
-                    <Link to="/addsaleagent" className='links'>
+                    <Link to="/agentsalehistory" className='links'>
                         <div className='card-div'>
-                            Add Sale Agent
+                            Sale History
                         </div>
                     </Link>
                 </Col>

@@ -10,7 +10,11 @@ const VerifyTransactions = React.lazy(() => import('./views/VerifyTransaction/In
 const AddManager = React.lazy(() => import('./views/AddManagers/Index'))
 const AllManager = React.lazy(() => import('./views/AddManagers/ManagerAcces'))
 const VerifySingleTransactions = React.lazy(() => import('./views/VerifyTransaction/VerifyTransaction'))
-
+const SaleAgent = React.lazy(() => import('./views/SaleAgent/Index'))
+const AddSaleAgent = React.lazy(() => import('./views/SaleAgent/AddSaleAgent'))
+const AgentProfile = React.lazy(() => import('./views/SaleAgent/AgentProfile'))
+const AgentBalanceCheck = React.lazy(() => import('./views/SaleAgent/BalanceChecking'))
+const AgentSaleHistory = React.lazy(() => import('./views/SaleAgent/SaleHistory'))
 
 
 
@@ -94,8 +98,11 @@ const routes = [
   { path: '/VerifySingleTransactions', name: 'VerifySingleTransactions', element: VerifySingleTransactions },
   { path: '/addmanager', name: 'addmanager', element: AddManager },
   { path: '/allmanager', name: 'allmanager', element: AllManager },
-
-
+  { path: '/saleagent', name: 'saleagent', element: SaleAgent },
+  { path: '/addsaleagent', name: 'addsaleagent', element: AddSaleAgent },
+  { path: '/agentprofile', name: 'AgentProfile', element: AgentProfile },
+  { path: '/agentbalancecheck', name: 'AgentBalanceCheck', element: AgentBalanceCheck },
+  { path: '/agentsalehistory', name: 'AgentSaleHistory', element: AgentSaleHistory },
 
 
   

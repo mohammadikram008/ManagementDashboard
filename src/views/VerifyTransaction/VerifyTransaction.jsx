@@ -43,6 +43,7 @@ const VerifyTransaction = () => {
   const toggle = () => {
     setIsOpen(!isOpen);
   };
+
   useEffect(() => {
     // if (Array.isArray(properties) && properties.length > 0) {
     //   const allTransactions = properties.reduce((all, property) => {
