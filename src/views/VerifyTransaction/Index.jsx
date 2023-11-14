@@ -39,7 +39,7 @@ const Index = () => {
                 <h2>Verification Transactions </h2>
             </div> */}
             {/* <Properties transactions={transactions} /> */}
-            <Pagination properties={transactions}/>
+            <Pagination properties={transactions} verify="verify" />
             {/* <VerifyTransaction /> */}
             {/* <Col md='4'>
                 
@@ -54,10 +54,6 @@ const Index = () => {
                     </Button>
                    
                 </Col> */}
-
-
-
-
 
         </Fragment>
     )

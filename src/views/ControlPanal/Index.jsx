@@ -8,19 +8,19 @@ const Index = () => {
         <Fragment>
             <Row className='m-0'>
                 <Col md='4'>
-                    <Link to="/verifytransactios" className='links'>
+                    <Link to="/verifytransactions" className='links'>
                         <div className='card-div'>
                             Verifying Transactions
                         </div>
                     </Link>
                 </Col>
-                <Col md='4'>
+                {/* <Col md='4'>
                     <Link to="/allmanager" className='links'>
                         <div className='card-div'>
                             Manage User Access
                         </div>
                     </Link>
-                </Col>
+                </Col> */}
                 <Col md='4'>
                     <Link to="/addmanager" className='links'>
                         <div className='card-div'>

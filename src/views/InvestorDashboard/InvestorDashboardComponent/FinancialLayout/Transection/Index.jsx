@@ -43,6 +43,7 @@ const Index = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const Id = location.state._id;
+
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [properties, setProperties] = useState([]);
   const [transactions, setTransactions] = useState([]);

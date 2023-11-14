@@ -9,7 +9,7 @@ const ViewImageModel = React.lazy(() => import('./views/ViewImage/Index'))
 const VerifyTransactions = React.lazy(() => import('./views/VerifyTransaction/Index'))
 const AddManager = React.lazy(() => import('./views/AddManagers/Index'))
 const AllManager = React.lazy(() => import('./views/AddManagers/ManagerAcces'))
-
+const VerifySingleTransactions = React.lazy(() => import('./views/VerifyTransaction/VerifyTransaction'))
 
 
 
@@ -90,7 +90,8 @@ const routes = [
   { path: '/property', name: 'property', element: AddProperty },
   { path: '/controlpanel', name: 'controlpanel', element: ControlPanel },
   { path: '/viewimage', name: 'viewimage', element: ViewImageModel },
-  { path: '/verifytransactios', name: 'VerifyTransactions', element: VerifyTransactions },
+  { path: '/verifytransactions', name: 'VerifyTransactions', element: VerifyTransactions },
+  { path: '/VerifySingleTransactions', name: 'VerifySingleTransactions', element: VerifySingleTransactions },
   { path: '/addmanager', name: 'addmanager', element: AddManager },
   { path: '/allmanager', name: 'allmanager', element: AllManager },
 

@@ -27,6 +27,8 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { BiFilterAlt } from 'react-icons/bi';
 const VerifyTransaction = () => {
   const navigation = useNavigate();
+  const location =useLocation();
+  console.log("locationsss",location)
   const pageSize = 10;
   const [currentPage, setCurrentPage] = useState(0);
   const [transactions, setTransactions] = useState([]);
@@ -41,22 +43,33 @@ const VerifyTransaction = () => {
   const toggle = () => {
     setIsOpen(!isOpen);
   };
-
   useEffect(() => {
-
-    const fetchProperty = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3005/api/tasks/getapprovedtransaction`);
-        console.log("approd", response.data.map((i) => i.id))
-        setTransactions(response.data.map((i) => i.id));
-      } catch (error) {
-        console.error('Error fetching property details:', error);
-        toast.info(`${error}`, { autoClose: 2000 });
-      }
-    };
-
-    fetchProperty();
+    // if (Array.isArray(properties) && properties.length > 0) {
+    //   const allTransactions = properties.reduce((all, property) => {
+    //     return all.concat(property.transactions);
+    //   }, []);
+    // setTransactions(allTransactions);
+    // setFilteredTransactions(allTransactions);
+    setTransactions(location.state.transactions);
+    // setFilteredTransactions(location.state.transactions);
+    // }
   }, []);
+
+  // useEffect(() => {
+
+  //   const fetchProperty = async () => {
+  //     try {
+  //       const response = await axios.get(`http://localhost:3005/api/tasks/getapprovedtransaction`);
+  //       console.log("approd", response.data.map((i) => i.id))
+  //       setTransactions(response.data.map((i) => i.id));
+  //     } catch (error) {
+  //       console.error('Error fetching property details:', error);
+  //       toast.info(`${error}`, { autoClose: 2000 });
+  //     }
+  //   };
+
+  //   fetchProperty();
+  // }, []);
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -66,7 +79,7 @@ const VerifyTransaction = () => {
       top: '50%',
       left: '50%',
       right: 'auto',
-      bottom: 'auto',
+      bottom: '1px',
       display: 'flex',
       flexdireaction: 'column',
       // marginRight: '-50%',
@@ -125,8 +138,8 @@ const VerifyTransaction = () => {
 
     // let filtered = transactions.map((i)=>(i));
     // let filtered = transactions.map((item)=>(item.transactions))
-    console.log("transactions", transactions.map((i) => i.map((e) => e)))
-    let filtered = transactions.map((i) => i.map((e) => e));
+    // console.log("transactions", transactions.map((i) => i.map((e) => e)))
+    let filtered = transactions;
 
 
     if (filterCity) {
@@ -199,7 +212,7 @@ const VerifyTransaction = () => {
     //     <button className='btn-transection  mx-3' onClick={() => handleApproved(property._id)}>Approved</button> */}
     //   </tr>
     // ));
-    return filteredProperties.slice(startIndex, endIndex).map((i) => (i.map((property, index) => (
+    return filteredProperties.slice(startIndex, endIndex).map((property, index) =>  (
 
       <tr key={index} onClick={() => handleNavigation(property)} className='table-row-data'>
         <td>{index}</td>
@@ -236,8 +249,7 @@ const VerifyTransaction = () => {
         {/* <button className='btn-transection ' onClick={() => openModal(property.image)}>View Image</button>
         <button className='btn-transection  mx-3' onClick={() => handleApproved(property._id)}>Approved</button> */}
       </tr>
-    ))
-
+    
     ));
   };
 
@@ -274,7 +286,7 @@ const VerifyTransaction = () => {
           <img
             src={`http://localhost:3005/${viewimg}`}
             alt="Not Uploaded"
-            style={{ maxWidth: '100%' }}
+            // style={{ maxWidth: '100%' }}
           />
           <button onClick={closeModal} className="btn-closedmodel" >Close</button>
         </Modal> : ""

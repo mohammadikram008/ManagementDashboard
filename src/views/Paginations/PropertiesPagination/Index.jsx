@@ -20,9 +20,7 @@ import {
 } from "reactstrap";
 import { BiFilterAlt } from 'react-icons/bi';
 import axios from 'axios';
-const Index = ({ properties, Portfolio, addmanager, selectedProperties, onSelectedPropertiesChange }) => {
-
-
+const Index = ({ properties, Portfolio, addmanager, selectedProperties, onSelectedPropertiesChange, manageremail,verify }) => {
   console.log("properties", properties);
   const navigate = useNavigate();
   const pageSize = 10;
@@ -67,21 +65,27 @@ const Index = ({ properties, Portfolio, addmanager, selectedProperties, onSelect
     return filteredProperties.slice(startIndex, endIndex).map((property, index) => (
       <tr key={property.id} onClick={() => handleNavigation(property)} className='table-row-data'>
         <td>{index}</td>
-        <td> {addmanager ? <Input
-          type="checkbox"
-          id="filterPropertyType"
-          checked={selectedProperties.includes(property._id)}
-          onChange={() => handleCheckboxChange(property._id)}
-        >
+        {
+          manageremail ? <td>{property.email}</td>
+            :
+            <>
+              <td> {addmanager ? <Input
+                type="checkbox"
+                id="filterPropertyType"
+                checked={selectedProperties.includes(property._id)}
+                onChange={() => handleCheckboxChange(property._id)}
+              >
 
-        </Input> : ""}</td>
-        <td>{property.name}</td>
-        <td>{property.address}</td>
-        <td>{property.city}</td>
-        <td>{property.country}</td>
-        <td>{property.propertytype}</td>
-        <td>{property.price}</td>
-        {Portfoliovalue ? <td className="center">{property.FeetOwned}</td> : ""}
+              </Input> : ""}</td>
+              <td>{property.name}</td>
+              <td>{property.address}</td>
+              <td>{property.city}</td>
+              <td>{property.country}</td>
+              <td>{property.propertytype}</td>
+              <td>{property.price}</td>
+              {Portfoliovalue ? <td className="center">{property.FeetOwned}</td> : ""}
+            </>
+        }
       </tr>
     ));
   };
@@ -117,17 +121,29 @@ const Index = ({ properties, Portfolio, addmanager, selectedProperties, onSelect
 
   const handleNavigation = (prop) => {
     if (!addmanager) {
-      navigate('/TransactionTable', { state: prop });
+      if (!verify) {
+        navigate('/TransactionTable', { state: prop });
+      } else {
+
+
+        navigate('/VerifySingleTransactions', { state: prop });
+
+      }
     }
   };
 
   return (
     <Fragment>
-      <div className='filter-div'>
-        <div onClick={toggle}>
-          Filter   <BiFilterAlt size={24} style={{ cursor: "pointer" }} />
-        </div>
-      </div>
+      {
+        manageremail ? "" :
+          <>
+            <div className='filter-div'>
+              <div onClick={toggle}>
+                Filter   <BiFilterAlt size={24} style={{ cursor: "pointer" }} />
+              </div>
+            </div>
+          </>
+      }
       <Collapse isOpen={isOpen} className='collapse-div'>
         <FormGroup className='collapse-div-groupform'>
           <Label for="filterCity">City:</Label>
@@ -201,21 +217,26 @@ const Index = ({ properties, Portfolio, addmanager, selectedProperties, onSelect
           </Input>
         </FormGroup>
       </Collapse>
+
       <div className='table-body'>
-
-
         <Table hover >
           <thead>
             <tr>
               <th>#</th>
-              <th> {addmanager ? "Access" : ""}</th>
-              <th>Name</th>
-              <th>Address</th>
-              <th>City</th>
-              <th>Country</th>
-              <th>Property Type</th>
-              <th>Price</th>
-              {Portfoliovalue ? <th>Feet Owned</th> : ""}
+              {
+                manageremail ? <th>Email</th> :
+                  <>
+
+                    <th> {addmanager ? "Access" : ""}</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>City</th>
+                    <th>Country</th>
+                    <th>Property Type</th>
+                    <th>Price</th>
+                    {Portfoliovalue ? <th>Feet Owned</th> : ""}
+                  </>
+              }
             </tr>
           </thead>
           <tbody>{properties ? renderProperties() : "Loading...."}</tbody>

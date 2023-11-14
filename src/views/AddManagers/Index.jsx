@@ -41,17 +41,17 @@ const Index = () => {
         try {
             // Send the user profile data and selected payment method details to your API here
             // Example: await axios.post('/api/profile', { ...formData, paymentMethodData });
-            const dataToSend = {
-                email: formData.email,
-                selectedProperties: selectedProperties,
-            };
-
-            await axios.post('http://localhost:3005/api/tasks/addmanager', dataToSend).then((res) => {
+            // const dataToSend = {
+            //     email: formData.email,
+            //     // selectedProperties: selectedProperties,
+            // };
+            // alert("call")
+            await axios.post('http://localhost:3005/api/tasks/addmanageremail', formData).then((res) => {
                 setFormData({
                     email: '',
                 });
                 setSelectedProperties("")
-                toast.info("Manager profile created  successfully", { autoClose: 2000 });
+                toast.info("Manager  Email Save successfully", { autoClose: 2000 });
                 // alert("Manager profile created  successfully")
             }).catch((err) => {
                 // alert(err)
@@ -68,7 +68,7 @@ const Index = () => {
         // Fetch property details when the component mounts
         const fetchProperty = async () => {
             try {
-                const response = await axios.get(`http://localhost:3005/api/tasks/properties`);
+                const response = await axios.get(`http://localhost:3005/api/tasks/getmanageremails`);
                 console.log("data", response.data)
                 setProperty(response.data);
             } catch (error) {
@@ -96,14 +96,16 @@ const Index = () => {
                         />
                     </FormGroup>
 
-
+                    <Button className='btn-login' type="submit">
+                    Submit
+                </Button>
                 </Form>
 
-                <Pagination className="" properties={properties} itemsPerPage={5} addmanager={"addmanager"} selectedProperties={selectedProperties} onSelectedPropertiesChange={handleSelectedPropertiesChange} />
+                {/* <Pagination className="" properties={properties} itemsPerPage={5} addmanager={"addmanager"} selectedProperties={selectedProperties} onSelectedPropertiesChange={handleSelectedPropertiesChange} /> */}
+                <Pagination className="" properties={properties} manageremail="manageremail" />
 
-                <Button className='btn-login' type="submit">
-                    Submit
-                </Button></Container>
+             </Container>
+             <ToastContainer/>
         </Fragment>
     )
 }
