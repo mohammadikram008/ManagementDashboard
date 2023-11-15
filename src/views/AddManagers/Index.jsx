@@ -4,7 +4,7 @@ import { Container, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 // import { loadStripe } from '@stripe/stripe-js';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Pagination from '../Paginations/PropertiesPagination/Index'
+import Pagination from '../Paginations/Controlpannelpagination/Index'
 // const stripePromise = loadStripe('sk_test_51NzDfpBuGdpsayKMf1fdpJdhUH5H5sPEWW7EfyEDUaUrkvA1ICRe0J3MuoISm6tebqlrUapDE35u0xtw1I0Sfoxa00QyjZJIF8');
 import axios from 'axios';
 import Properties from '../explore/propertyhome/Properties';
@@ -106,7 +106,7 @@ const Index = () => {
                 </Form>
 
                 {/* <Pagination className="" properties={properties} itemsPerPage={5} addmanager={"addmanager"} selectedProperties={selectedProperties} onSelectedPropertiesChange={handleSelectedPropertiesChange} /> */}
-                <Pagination className="" properties={properties} manageremail="manageremail" />
+                <Pagination className="" properties={properties} />
 
             {/* </Container> */}
             <ToastContainer />

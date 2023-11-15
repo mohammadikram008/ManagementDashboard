@@ -9,12 +9,14 @@ const ViewImageModel = React.lazy(() => import('./views/ViewImage/Index'))
 const VerifyTransactions = React.lazy(() => import('./views/VerifyTransaction/Index'))
 const AddManager = React.lazy(() => import('./views/AddManagers/Index'))
 const AllManager = React.lazy(() => import('./views/AddManagers/ManagerAcces'))
+const ManagerFormAcces = React.lazy(() => import('./views/AddManagers/ManagerFormSubmission'))
 const VerifySingleTransactions = React.lazy(() => import('./views/VerifyTransaction/VerifyTransaction'))
 const SaleAgent = React.lazy(() => import('./views/SaleAgent/Index'))
 const AddSaleAgent = React.lazy(() => import('./views/SaleAgent/AddSaleAgent'))
 const AgentProfile = React.lazy(() => import('./views/SaleAgent/AgentProfile'))
 const AgentBalanceCheck = React.lazy(() => import('./views/SaleAgent/BalanceChecking'))
 const AgentSaleHistory = React.lazy(() => import('./views/SaleAgent/SaleHistory'))
+const ManagerPortalAccess = React.lazy(() => import('./views/AddManagers/ManagerAccessPortal'))
 
 
 
@@ -103,9 +105,15 @@ const routes = [
   { path: '/agentprofile', name: 'AgentProfile', element: AgentProfile },
   { path: '/agentbalancecheck', name: 'AgentBalanceCheck', element: AgentBalanceCheck },
   { path: '/agentsalehistory', name: 'AgentSaleHistory', element: AgentSaleHistory },
+  { path: '/managerformacces', name: 'ManagerFormAcces', element: ManagerFormAcces },
+  { path: '/manageraccessportal', name: 'ManagerPortalAccess', element: ManagerPortalAccess },
 
 
   
+
+
+
+
   { path: '/explore', name: 'Properties', element: Properties },
   { path: '/explore/OwnerAcess', name: 'OwnerAcces', element: OwnerAcess },
   { path: '/explore/propertydetail', name: 'Property Details', element: SingleProperty },

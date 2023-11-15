@@ -1,0 +1,141 @@
+/* styles.css */
+.property-table {
+  width: 100%;
+  color: #CA974B;
+  /* border: 1px solid ; */
+  /* border-radius: 10px; */
+  margin-top: 10px;
+
+  /* padding: 10px; */
+}
+
+.property-table tr {
+  color: black;
+}
+
+.property-table thead tr {
+  color: #CA974B;
+}
+
+.property-list {
+  /* max-width: 800px; */
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.property-items {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  /* justify-content: space-between; */
+}
+
+/* .property-items li {
+    width: calc(33.33% - 50px);
+    margin-bottom: 20px;
+    
+  } */
+.property-list-detail {
+  display: flex;
+  width: 100%;
+}
+
+
+
+/* .property-items img {
+    max-width: 100%;
+    height: auto;
+} */
+.pagination {
+  display: flex;
+  justify-content: end;
+  list-style: none;
+  margin-top: 10px;
+  padding: 0;
+}
+
+.pagination li {
+  margin: 0 5px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.pagination .active {
+  font-weight: bold;
+}
+
+.searchbar {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.searchbar input {
+
+  border: 1px solid #DF9976;
+  border-radius: 10px;
+  padding: .3rem;
+
+}
+
+.input-class {
+  max-width: 20%;
+  margin: 1rem;
+}
+.pagination {
+  display: flex;
+justify-content: start;
+/* align-items: start; */
+}
+.filter-div{
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin-bottom: 1rem;
+
+ 
+}
+.filter-div div{
+  border: 1px solid #DF9976;
+  padding: .5rem;
+  border-radius: .2rem;
+  cursor: pointer;
+}
+.filter-div div:hover{
+  background-color: #998972;
+  color: white;
+}
+.collapse-div{
+  background-color: #998972;
+  display: flex;
+  color:white;
+}
+.collapse-div-groupform{
+  
+  padding: 1rem;
+  margin-left: 2rem;
+}
+.table-body{
+  background-color: white;
+  height: 60vh;
+}
+.table-row-data{
+/* display: flex; */
+/* justify-content: center; */
+/* align-items: center; */
+}
+.center{
+  text-align: center;
+}
+/* .pagination-main-div{
+  position: relative;
+}
+.pagination-main-div .Pagination-main{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  top: .1rem;
+} */

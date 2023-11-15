@@ -20,7 +20,8 @@ import {
 } from "reactstrap";
 import { BiFilterAlt } from 'react-icons/bi';
 import axios from 'axios';
-const Index = ({ properties, Portfolio, addmanager, selectedProperties, onSelectedPropertiesChange, manageremail,verify }) => {
+const Index = ({ properties, agent }) => {
+  console.log("agent",agent)
   console.log("properties", properties);
   const navigate = useNavigate();
   const pageSize = 10;
@@ -31,7 +32,7 @@ const Index = ({ properties, Portfolio, addmanager, selectedProperties, onSelect
   const [maxPrice, setMaxPrice] = useState("");
   const [filterPropertyType, setFilterPropertyType] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const Portfoliovalue = Portfolio;
+
   const toggle = () => {
     setIsOpen(!isOpen);
   };
@@ -54,6 +55,34 @@ const Index = ({ properties, Portfolio, addmanager, selectedProperties, onSelect
     // Call the parent component's callback function to update the selected properties
     onSelectedPropertiesChange(updatedSelectedProperties);
   };
+
+  const handleNavigation = async (prop, action) => {
+    console.log("action", action, "pro", prop)
+    //   await axios.post('http://localhost:3005/api/tasks/addmanager', formData).then((res) => {
+    //     setFormData({
+    //         email: '',
+    //     });
+    //     setSelectedProperties("")
+    //     toast.info("Manager  Email Save successfully", { autoClose: 2000 });
+    //     // alert("Manager profile created successfully")
+    // }).catch((err) => {
+    //     // alert(err)
+    //     toast.info(`${err}`, { autoClose: 2000 });
+    // })
+    if (action === "access") {
+      if (!agent) {
+
+
+        navigate('/allmanager', { state: prop });
+      } else {
+
+        alert(action)
+        // navigate('/VerifySingleTransactions', { state: prop });
+
+      }
+    }
+  };
+
   const renderProperties = () => {
     let filteredProperties = filterProperties();
     const startIndex = currentPage * pageSize;
@@ -63,28 +92,21 @@ const Index = ({ properties, Portfolio, addmanager, selectedProperties, onSelect
     }
 
     return filteredProperties.slice(startIndex, endIndex).map((property, index) => (
-      <tr key={property.id} onClick={() => handleNavigation(property)} className='table-row-data'>
+      <tr key={property.id}
+        // onClick={() => handleNavigation(property)}
+        className='table-row-data'>
         <td>{index}</td>
-        {
-          manageremail ? <td>{property.email}</td>
-            :
-            <>
-              <td> {addmanager ? <Input
-                type="checkbox"
-                id="filterPropertyType"
-                // checked={selectedProperties.includes(property._id)}
-                // onChange={() => handleCheckboxChange(property._id)}
-              >
-
-              </Input> : ""}</td>
-              <td>{property.name}</td>
-              <td>{property.address}</td>
-              <td>{property.city}</td>
-              <td>{property.country}</td>
-              <td>{property.propertytype}</td>
-              <td>{property.price}</td>
-              {Portfoliovalue ? <td className="center">{property.FeetOwned}</td> : ""}
-            </>
+        <td>{property.email}</td>
+        <td>Invited</td>
+        {agent?"":
+        <td>
+          {/* <Button className='btn-login' onClick={() => handleNavigation(property.email, "invit")}>
+            Invite
+          </Button> */}
+          <Button className='btn-login mx-2' onClick={() => handleNavigation(property.email, "access")}>
+            Access
+          </Button>
+        </td>
         }
       </tr>
     ));
@@ -119,22 +141,9 @@ const Index = ({ properties, Portfolio, addmanager, selectedProperties, onSelect
     return filtered;
   };
 
-  const handleNavigation = (prop) => {
-    if (!addmanager) {
-      if (!verify) {
-        navigate('/TransactionTable', { state: prop });
-      } else {
-
-
-        navigate('/VerifySingleTransactions', { state: prop });
-
-      }
-    }
-  };
-
   return (
     <Fragment>
-      {
+      {/* {
         manageremail ? "" :
           <>
             <div className='filter-div'>
@@ -143,7 +152,7 @@ const Index = ({ properties, Portfolio, addmanager, selectedProperties, onSelect
               </div>
             </div>
           </>
-      }
+      } */}
       <Collapse isOpen={isOpen} className='collapse-div'>
         <FormGroup className='collapse-div-groupform'>
           <Label for="filterCity">City:</Label>
@@ -223,20 +232,12 @@ const Index = ({ properties, Portfolio, addmanager, selectedProperties, onSelect
           <thead>
             <tr>
               <th>#</th>
-              {
-                manageremail ? <th>Email</th> :
-                  <>
-
-                    <th> {addmanager ? "Access" : ""}</th>
-                    <th>Name</th>
-                    <th>Address</th>
-                    <th>City</th>
-                    <th>Country</th>
-                    <th>Property Type</th>
-                    <th>Price</th>
-                    {Portfoliovalue ? <th>Feet Owned</th> : ""}
-                  </>
-              }
+              <th>Email</th>
+              <th>Status</th>
+          {agent?"":
+             <th>Action</th>
+          
+        } 
             </tr>
           </thead>
           <tbody>{properties ? renderProperties() : "Loading...."}</tbody>

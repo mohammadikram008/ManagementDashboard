@@ -21,13 +21,13 @@ const Index = () => {
                         </div>
                     </Link>
                 </Col> */}
-                <Col md='4'>
+                {/* <Col md='4'>
                     <Link to="/agentbalancecheck" className='links'>
                         <div className='card-div'>
                             Check Balance
                         </div>
                     </Link>
-                </Col>
+                </Col> */}
                 <Col md='4'>
                     <Link to="/agentsalehistory" className='links'>
                         <div className='card-div'>

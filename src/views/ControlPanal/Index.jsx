@@ -35,6 +35,27 @@ const Index = () => {
                         </div>
                     </Link>
                 </Col>
+                <Col md='4 ' className='mt-5'>
+                    <Link to="/manageraccessportal" className='links'>
+                        <div className='card-div'>
+                            Managers Access Portal
+                        </div>
+                    </Link>
+                </Col>
+                <Col md='4 ' className='mt-5'>
+                    <Link to="/managedatabase" className='links'>
+                        <div className='card-div'>
+                            Manage Database
+                        </div>
+                    </Link>
+                </Col>
+                <Col md='4 ' className='mt-5'>
+                    <Link to="/others" className='links'>
+                        <div className='card-div'>
+                            Others
+                        </div>
+                    </Link>
+                </Col>
             </Row>
         </Fragment>
     )

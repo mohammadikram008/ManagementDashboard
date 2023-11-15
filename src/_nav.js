@@ -97,12 +97,12 @@ const _nav = [
     to: '/controlpanel',
     icon: <CIcon icon={cilDescription} customClassName="nav-icon" />,
   },
-   {
-    component: CNavItem,
-    name: 'Sale Agent',
-    to: '/saleagent',
-    icon: <CIcon icon={cilNotes} customClassName="nav-icon" />,
-  },
+  //  {
+  //   component: CNavItem,
+  //   name: 'Sale Agent',
+  //   to: '/saleagent',
+  //   icon: <CIcon icon={cilNotes} customClassName="nav-icon" />,
+  // },
   // {
   //   component: CNavItem,
   //   name: 'Explore',
@@ -141,40 +141,40 @@ const _nav = [
   // },
 
   // new comment
-  // {
-  //   component: CNavGroup,
-  //   name: 'Settings',
-  //   to: '/buttons',
-  //   icon: <CIcon icon={cilCursor} customClassName="nav-icon" />,
-  //   items: [
-  //     {
-  //       component: CNavItem,
-  //       name: 'Profile',
-  //       to: '/Setting/Profile',
-  //     },
-  //     // {
-  //     //   component: CNavItem,
-  //     //   name: 'Others',
-  //     //   to: '/Setting/Others',
-  //     // },
-  //     {
-  //       component: CNavItem,
-  //       name: 'Change Password',
-  //       to: '/PasswordChange',
-  //     },
-  //     {
-  //       component: CNavItem,
-  //       name: 'Verify Account',
-  //       to: '/VerificationPage',
-  //     },
-  //     // {
-  //     //   component: CNavItem,
-  //     //   name: 'Privacy Settings',
-  //     //   to: '/buttons',
+  {
+    component: CNavGroup,
+    name: 'Sale Agent',
+    to: '/buttons',
+    icon: <CIcon icon={cilCursor} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Agnet Profile',
+        to: '/agentprofile',
+      },
+      // {
+      //   component: CNavItem,
+      //   name: 'Others',
+      //   to: '/Setting/Others',
+      // },
+      {
+        component: CNavItem,
+        name: 'Agent Wallet',
+        to: '/agentbalancecheck',
+      },
+      {
+        component: CNavItem,
+        name: 'Sale History',
+        to: '/agentsalehistory',
+      },
+      // {
+      //   component: CNavItem,
+      //   name: 'Privacy Settings',
+      //   to: '/buttons',
        
-  //     // },
-  //   ],
-  // },
+      // },
+    ],
+  },
   // {
   //   component: CNavGroup,
   //   name: 'Wallets',
