@@ -36,7 +36,7 @@ const Index = () => {
             [name]: value,
         });
     };
-    console.log("image", selectedFile)
+
 
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
@@ -54,9 +54,10 @@ const Index = () => {
             formDatas.append('date', startDate);
             formDatas.append('balance', formData.balance);
             formDatas.append('image', selectedFile);
-            console.log("formdatas", selectedFile)
+            console.log("image", selectedFile)
 
             if (PropertyId) {
+                alert("update", selectedFile)
                 await axios.put(`http://localhost:3005/api/tasks/properties/${PropertyId}/transactions/${id}`, formDatas).then((response) => {
                     // Handle the API response here
                     // Clear the form fields
@@ -78,7 +79,7 @@ const Index = () => {
 
             } else {
 
-
+                alert("new")
 
                 await axios.post(`http://localhost:3005/api/tasks/addtransaction/${id}/transactions`, formDatas).then((response) => {
                     // Handle the API response here

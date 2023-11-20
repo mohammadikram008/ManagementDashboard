@@ -19,7 +19,9 @@ const index = () => {
     sales:  '344',
     date:  '4/2/2023',
     code:  '45666',
-    balance:  '9973997 Meezan bank ',
+    title:  'Mohammadikram ',
+    Accoountnumber:  '08160104579012',
+    bankname:  'Meezan bank ',
 
     // To store the selected payment method
 });
@@ -108,14 +110,37 @@ useEffect(() => {
                         // onChange={handleChange}
                     />
                 </FormGroup>
-                <FormGroup className='mx-2'>
-                    <Label for="balance">Account Details</Label>
+                    <h3 for="balance">Account Details</h3>
+                    <FormGroup className='mx-2'>
+                    <Label for="balance">Account Title</Label>
                     <Input
                         type="text"
                         name="balance"
                         id="balance"
                         disabled
-                        value={formData.balance}
+                        value={formData.title}
+                        // onChange={handleChange}
+                    />
+                </FormGroup>
+                <FormGroup className='mx-2'>
+                    <Label for="balance">Account Number</Label>
+                    <Input
+                        type="text"
+                        name="balance"
+                        id="balance"
+                        disabled
+                        value={formData.Accoountnumber}
+                        // onChange={handleChange}
+                    />
+                </FormGroup>
+                <FormGroup className='mx-2'>
+                    <Label for="balance">Bank Name</Label>
+                    <Input
+                        type="text"
+                        name="balance"
+                        id="balance"
+                        disabled
+                        value={formData.bankname}
                         // onChange={handleChange}
                     />
                 </FormGroup>

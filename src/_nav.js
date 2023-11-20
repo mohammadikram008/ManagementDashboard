@@ -149,7 +149,7 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: 'Agnet Profile',
+        name: 'Agent Profile',
         to: '/agentprofile',
       },
       // {

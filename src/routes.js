@@ -16,7 +16,10 @@ const AddSaleAgent = React.lazy(() => import('./views/SaleAgent/AddSaleAgent'))
 const AgentProfile = React.lazy(() => import('./views/SaleAgent/AgentProfile'))
 const AgentBalanceCheck = React.lazy(() => import('./views/SaleAgent/BalanceChecking'))
 const AgentSaleHistory = React.lazy(() => import('./views/SaleAgent/SaleHistory'))
+const AgentFormSubmission = React.lazy(() => import('./views/SaleAgent/AgentFormSubmission'))
 const ManagerPortalAccess = React.lazy(() => import('./views/AddManagers/ManagerAccessPortal'))
+const ManagerAccessProperties = React.lazy(() => import('./views/AddManagers/ShowManagerAccessProperties'))
+const CommissionManagment = React.lazy(() => import('./views/CommissionManagment'))
 
 
 
@@ -105,8 +108,11 @@ const routes = [
   { path: '/agentprofile', name: 'AgentProfile', element: AgentProfile },
   { path: '/agentbalancecheck', name: 'AgentBalanceCheck', element: AgentBalanceCheck },
   { path: '/agentsalehistory', name: 'AgentSaleHistory', element: AgentSaleHistory },
+  { path: '/agentformsubmission', name: 'AgentFormSubmission', element: AgentFormSubmission },
   { path: '/managerformacces', name: 'ManagerFormAcces', element: ManagerFormAcces },
   { path: '/manageraccessportal', name: 'ManagerPortalAccess', element: ManagerPortalAccess },
+  { path: '/manageraccessproperties', name: 'ManagerAccessProperties', element: ManagerAccessProperties },
+  { path: '/commissionmanagment', name: 'CommissionManagment', element: CommissionManagment },
 
 
   

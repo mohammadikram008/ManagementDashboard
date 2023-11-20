@@ -48,34 +48,35 @@ const Index = () => {
   const [properties, setProperties] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const [viewimg, setViewImage] = useState("");
+  const fetchProperty = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3005/api/tasks/properties/${Id}`);
+      // console.log("data",response.data)
+      const data=response.data
+      setTransactions(data.transactions);
+      setFilteredTransactions(data.transactions);
+    } catch (error) {
+      console.error('Error fetching property details:', error);
+    }
+  };
   useEffect(() => {
     // Fetch property details when the component mounts
-    const fetchProperty = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3005/api/tasks/properties/${Id}`);
-        // console.log("data",response.data)
-        const data=response.data
-        setTransactions(data.transactions);
-
-      } catch (error) {
-        console.error('Error fetching property details:', error);
-      }
-    };
+  
 
     fetchProperty();
   }, []);
-  console.log("new property get ",properties)
-  useEffect(() => {
-    // if (Array.isArray(properties) && properties.length > 0) {
-    //   const allTransactions = properties.reduce((all, property) => {
-    //     return all.concat(property.transactions);
-    //   }, []);
-    // setTransactions(allTransactions);
-    // setFilteredTransactions(allTransactions);
-    setTransactions(location.state.transactions);
-    setFilteredTransactions(location.state.transactions);
-    // }
-  }, []);
+
+  // useEffect(() => {
+  //   // if (Array.isArray(properties) && properties.length > 0) {
+  //   //   const allTransactions = properties.reduce((all, property) => {
+  //   //     return all.concat(property.transactions);
+  //   //   }, []);
+  //   // setTransactions(allTransactions);
+  //   // setFilteredTransactions(allTransactions);
+  //   setTransactions(location.state.transactions);
+  //   setFilteredTransactions(location.state.transactions);
+  //   // }
+  // }, []);
 
   const handleOpenDeleteModal = (property) => {
     setSelectedTransactionId(property);
@@ -177,7 +178,7 @@ const Index = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   let [filteredTransactions, setFilteredTransactions] = useState(transactions);
-  console.log("isDeleteModalOpen", isDeleteModalOpen);
+
   const filterTransactions = () => {
     if (startDate && endDate) {
       const start = new Date(startDate);
@@ -226,7 +227,7 @@ const Index = () => {
       // alert(response.message);
       setIsDeleteModalOpen(false);
       toast.info(`Deteled`, { autoClose: 2000 });
-
+      fetchProperty();
     } catch (error) {
       console.error('Error fetching property details:', error);
       toast.info(`${error}`, { autoClose: 2000 });
@@ -262,6 +263,7 @@ const Index = () => {
   // }
   const openModal = (image) => {
     // setSelectedImage(image);
+    console.log("imagess",image)
     setViewImage(image);
     setModalIsOpen(true);
   };
@@ -286,7 +288,7 @@ const Index = () => {
         <td> <BiLinkExternal
           className="icon"
           data-tip="View image"
-          onClick={() => openModal(property.image)}
+          onClick={() => openModal(transactions.image)}
         // onClick={() => this.handleIconClick('edit')}
         /></td>
         <td>

@@ -50,9 +50,9 @@ const Index = () => {
                     </Link>
                 </Col>
                 <Col md='4 ' className='mt-5'>
-                    <Link to="/others" className='links'>
+                    <Link to="/commissionmanagment" className='links'>
                         <div className='card-div'>
-                            Others
+                            Commission Managment
                         </div>
                     </Link>
                 </Col>

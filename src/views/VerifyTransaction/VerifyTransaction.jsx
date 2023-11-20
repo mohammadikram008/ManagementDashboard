@@ -27,10 +27,14 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { BiFilterAlt } from 'react-icons/bi';
 const VerifyTransaction = () => {
   const navigation = useNavigate();
-  const location =useLocation();
-  console.log("locationsss",location)
+  const location = useLocation();
+  console.log("locationsss", location)
+  const Id = location.state._id
   const pageSize = 10;
   const [currentPage, setCurrentPage] = useState(0);
+
+  const [selectedRows, setSelectedRows] = useState([]);
+
   const [transactions, setTransactions] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [viewimg, setViewImage] = useState("");
@@ -52,6 +56,7 @@ const VerifyTransaction = () => {
     // setTransactions(allTransactions);
     // setFilteredTransactions(allTransactions);
     setTransactions(location.state.transactions);
+
     // setFilteredTransactions(location.state.transactions);
     // }
   }, []);
@@ -80,7 +85,7 @@ const VerifyTransaction = () => {
       top: '50%',
       left: '50%',
       right: 'auto',
-      bottom: '1px',
+      bottom: 'auto',
       display: 'flex',
       flexdireaction: 'column',
       // marginRight: '-50%',
@@ -104,17 +109,41 @@ const VerifyTransaction = () => {
   };
   const handleApproved = async (props) => {
 
-    try {
-      const response = await axios.post(`http://localhost:3005/api/tasks/deleteapprovedtransaction/${props.id}`, props);
-      // alert(response.message);
-      toast.info(`Approved`, { autoClose: 2000 });
 
+    try {
+      const response = await axios.post(`http://localhost:3005/api/tasks/deleteapprovedtransaction/${Id}`, transactions);
+      // alert(response.message);
+      toast.info(`Approved`, { autoClose: 800 });
+      setTimeout(() => {
+        navigation("/verifytransactions")
+      }, 1000); 
+  
     } catch (error) {
       console.error('Error fetching property details:', error);
       toast.info(`${error}`, { autoClose: 2000 });
     }
   }
-  const handleIconClick = (action, property) => {
+  const openModal = (image, index) => {
+    // setSelectedImage(image);
+    setViewImage(image);
+    setModalIsOpen(true);
+    const updatedSelectedRows = [...selectedRows]; // Copy the existing selected rows
+    const selectedIndex = updatedSelectedRows.indexOf(index);
+
+    if (selectedIndex === -1) {
+      updatedSelectedRows.push(index); // Add the index if not present
+    } else {
+      updatedSelectedRows.splice(selectedIndex, 1); // Remove the index if already present
+    }
+
+    setSelectedRows(updatedSelectedRows);
+  };
+
+  const closeModal = () => {
+    // setSelectedImage(null);
+    setModalIsOpen(false);
+  };
+  const handleIconClick = (action, property, index) => {
     // Implement your logic here based on the action (edit, delete, update)
     // You can navigate to different pages, make API requests, etc.
     console.log("action", action)
@@ -169,7 +198,7 @@ const VerifyTransaction = () => {
   };
   const renderProperties = () => {
     let filteredProperties = filterProperties();
-    console.log("new", filteredProperties)
+
     const startIndex = currentPage * pageSize;
     const endIndex = startIndex + pageSize;
     if (!Array.isArray(filteredProperties)) {
@@ -213,7 +242,7 @@ const VerifyTransaction = () => {
     //     <button className='btn-transection  mx-3' onClick={() => handleApproved(property._id)}>Approved</button> */}
     //   </tr>
     // ));
-    return filteredProperties.slice(startIndex, endIndex).map((property, index) =>  (
+    return filteredProperties.slice(startIndex, endIndex).map((property, index) => (
 
       <tr key={index} onClick={() => handleNavigation(property)} className='table-row-data'>
         <td>{index}</td>
@@ -224,7 +253,11 @@ const VerifyTransaction = () => {
         <td> <BiLinkExternal
           className="icon"
           data-tip="View image"
-          onClick={() => openModal(property.image)}
+          onClick={() => {
+            openModal(property.image, index)
+            //  setSelectedRowIndex(index);
+          }}
+
         // onClick={() => this.handleIconClick('edit')}
         /></td>
         <td>
@@ -241,8 +274,11 @@ const VerifyTransaction = () => {
           // onMouseEnter={() => handleIconHover('delete')}
           />
           <IoMdDoneAll
-            className="icon mx-2"
-            onClick={() => handleIconClick('approved', property)}
+            color={`${selectedRows.includes(index) ? 'red' : ''}`}
+            //   className="icon mx-2"
+            className={`icon mx-2 `}
+            // onClick={() => handleIconClick('approved', property, index)}
+            // onClick={() => handleIconClick('approved', property)}
             data-tip="Update"
           // onMouseEnter={() => handleIconHover('update')}
           />
@@ -250,30 +286,14 @@ const VerifyTransaction = () => {
         {/* <button className='btn-transection ' onClick={() => openModal(property.image)}>View Image</button>
         <button className='btn-transection  mx-3' onClick={() => handleApproved(property._id)}>Approved</button> */}
       </tr>
-    
+
     ));
   };
-
-
-
   const handleNavigation = (prop) => {
 
     // navigate('/explore/propertydetail', { state: prop });
   };
 
-
-
-
-  const openModal = (image) => {
-    // setSelectedImage(image);
-    setViewImage(image);
-    setModalIsOpen(true);
-  };
-
-  const closeModal = () => {
-    // setSelectedImage(null);
-    setModalIsOpen(false);
-  };
   return (
     <Fragment>
       {modalIsOpen ?
@@ -287,7 +307,7 @@ const VerifyTransaction = () => {
           <img
             src={`http://localhost:3005/${viewimg}`}
             alt="Not Uploaded"
-            // style={{ maxWidth: '100%' }}
+          // style={{ maxWidth: '100%' }}
           />
           <button onClick={closeModal} className="btn-closedmodel" >Close</button>
         </Modal> : ""
@@ -308,7 +328,7 @@ const VerifyTransaction = () => {
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody>{transactions ? renderProperties() : "Loading..."}</tbody>
+            <tbody>{transactions.length > 0 ? renderProperties() : "Loading..."}</tbody>
           </Table>
         </div>
         <div className='pagination-main-div'>
@@ -370,6 +390,13 @@ const VerifyTransaction = () => {
         : "No Transaction yet!"
 
       } */}
+      {selectedRows.length === transactions.length ?
+
+        <button className='btn-transection  mx-3' onClick={() => handleApproved(transactions)}>Approved</button>
+        :
+        <button className='btn-transection  mx-3' disabled >See All Images</button>
+      }
+
       <ToastContainer />
     </Fragment>
   )

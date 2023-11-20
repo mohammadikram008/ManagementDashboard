@@ -17,7 +17,7 @@ const index = () => {
           disabled
         />
       </FormGroup>
-      <Button className='btn-login mx-2' onClick={() => handleNavigation(property.email, "access")}>
+      <Button className='btn-login mx-2'>
         Withdraw
       </Button>
     </Fragment>

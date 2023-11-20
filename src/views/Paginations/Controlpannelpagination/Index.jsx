@@ -20,8 +20,8 @@ import {
 } from "reactstrap";
 import { BiFilterAlt } from 'react-icons/bi';
 import axios from 'axios';
-const Index = ({ properties, agent }) => {
-  console.log("agent",agent)
+const Index = ({ properties, agent, salehistory, manageracces }) => {
+  console.log("agent", agent)
   console.log("properties", properties);
   const navigate = useNavigate();
   const pageSize = 10;
@@ -71,8 +71,6 @@ const Index = ({ properties, agent }) => {
     // })
     if (action === "access") {
       if (!agent) {
-
-
         navigate('/allmanager', { state: prop });
       } else {
 
@@ -80,6 +78,8 @@ const Index = ({ properties, agent }) => {
         // navigate('/VerifySingleTransactions', { state: prop });
 
       }
+    }else if(action === "manageraccess"){
+      navigate('/manageraccessproperties', { state: prop });
     }
   };
 
@@ -92,22 +92,38 @@ const Index = ({ properties, agent }) => {
     }
 
     return filteredProperties.slice(startIndex, endIndex).map((property, index) => (
+
+
       <tr key={property.id}
         // onClick={() => handleNavigation(property)}
         className='table-row-data'>
-        <td>{index}</td>
-        <td>{property.email}</td>
-        <td>Invited</td>
-        {agent?"":
-        <td>
-          {/* <Button className='btn-login' onClick={() => handleNavigation(property.email, "invit")}>
+        {salehistory ?
+          <>
+            <td>{index}</td>
+            <td>ikram</td>
+            <td>Farm House</td>
+            <td>3%</td>
+            <td>456</td>
+            <td>3/11/2023</td>
+
+          </>
+          :
+          <>
+
+            <td>{index}</td>
+            <td>{property.email}</td>
+            {manageracces ? "" : <td>Invited</td>}
+            {agent ? "" :
+              <td>
+                {/* <Button className='btn-login' onClick={() => handleNavigation(property.email, "invit")}>
             Invite
           </Button> */}
-          <Button className='btn-login mx-2' onClick={() => handleNavigation(property.email, "access")}>
-            Access
-          </Button>
-        </td>
-        }
+                <Button className='btn-login mx-2' onClick={() => handleNavigation(manageracces?property.selectedProperties:property.email, manageracces ? "manageraccess" : "access")}>
+                  {manageracces ? "Show " : 'Access'}
+                </Button>
+              </td>
+            }
+          </>}
       </tr>
     ));
   };
@@ -143,16 +159,15 @@ const Index = ({ properties, agent }) => {
 
   return (
     <Fragment>
-      {/* {
-        manageremail ? "" :
-          <>
-            <div className='filter-div'>
-              <div onClick={toggle}>
-                Filter   <BiFilterAlt size={24} style={{ cursor: "pointer" }} />
-              </div>
-            </div>
-          </>
-      } */}
+
+
+      {/* <div className='filter-div'>
+        <div onClick={toggle}>
+          Filter   <BiFilterAlt size={24} style={{ cursor: "pointer" }} />
+        </div>
+      </div> */}
+
+
       <Collapse isOpen={isOpen} className='collapse-div'>
         <FormGroup className='collapse-div-groupform'>
           <Label for="filterCity">City:</Label>
@@ -229,16 +244,28 @@ const Index = ({ properties, agent }) => {
 
       <div className='table-body'>
         <Table hover >
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Email</th>
-              <th>Status</th>
-          {agent?"":
-             <th>Action</th>
-          
-        } 
-            </tr>
+          <thead>{
+
+            salehistory && salehistory ?
+              <tr>
+                <th>#</th>
+                <th>Client</th>
+                <th>PropertyName</th>
+                <th>Commision</th>
+                <th>Sale Price</th>
+                <th>Sale Date</th>
+              </tr> :
+
+              <tr>
+                <th>#</th>
+                <th>Email</th>
+                {manageracces ? "" : <th>Status</th>}
+                {agent ? "" :
+                  <th>Action</th>
+
+                }
+              </tr>
+          }
           </thead>
           <tbody>{properties ? renderProperties() : "Loading...."}</tbody>
         </Table>

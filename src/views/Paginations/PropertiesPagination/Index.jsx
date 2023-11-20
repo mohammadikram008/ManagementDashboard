@@ -43,14 +43,21 @@ const Index = ({ properties, Portfolio, addmanager, selectedProperties, onSelect
   const handlePageClick = (pageIndex) => {
     setCurrentPage(pageIndex);
   };
-  const handleCheckboxChange = (propertyId) => {
-    const updatedSelectedProperties = [...selectedProperties];
-    if (updatedSelectedProperties.includes(propertyId)) {
-      updatedSelectedProperties.splice(updatedSelectedProperties.indexOf(propertyId), 1);
-    } else {
+  const handleCheckboxChange = (e,propertyId) => {
+    const isChecked = e.target.checked;
+    let updatedSelectedProperties = [...selectedProperties];
+    // if (updatedSelectedProperties.includes(propertyId)) {
+    //   updatedSelectedProperties.splice(updatedSelectedProperties.indexOf(propertyId), 1);
+    // } else {
+    //   updatedSelectedProperties.push(propertyId);
+    // }
+    if (isChecked && !updatedSelectedProperties.includes(propertyId)) {
       updatedSelectedProperties.push(propertyId);
+    } else if (!isChecked && updatedSelectedProperties.includes(propertyId)) {
+      updatedSelectedProperties = updatedSelectedProperties.filter(
+        (id) => id !== propertyId
+      );
     }
-
     // Call the parent component's callback function to update the selected properties
     onSelectedPropertiesChange(updatedSelectedProperties);
   };
@@ -72,8 +79,8 @@ const Index = ({ properties, Portfolio, addmanager, selectedProperties, onSelect
               <td> {addmanager ? <Input
                 type="checkbox"
                 id="filterPropertyType"
-                // checked={selectedProperties.includes(property._id)}
-                // onChange={() => handleCheckboxChange(property._id)}
+                checked={selectedProperties.includes(property._id)}
+                onChange={(e) => handleCheckboxChange(e,property._id)}
               >
 
               </Input> : ""}</td>
@@ -124,8 +131,6 @@ const Index = ({ properties, Portfolio, addmanager, selectedProperties, onSelect
       if (!verify) {
         navigate('/TransactionTable', { state: prop });
       } else {
-
-
         navigate('/VerifySingleTransactions', { state: prop });
 
       }
@@ -239,7 +244,7 @@ const Index = ({ properties, Portfolio, addmanager, selectedProperties, onSelect
               }
             </tr>
           </thead>
-          <tbody>{properties ? renderProperties() : "Loading...."}</tbody>
+          <tbody>{ properties ? renderProperties() : "Loading...."}</tbody>
         </Table>
       </div>
       <div className='pagination-main-div'>

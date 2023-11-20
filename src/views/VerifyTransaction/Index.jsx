@@ -39,7 +39,12 @@ const Index = () => {
                 <h2>Verification Transactions </h2>
             </div> */}
             {/* <Properties transactions={transactions} /> */}
-            <Pagination properties={transactions} verify="verify" />
+            {transactions.length > 0 ?
+                <>
+                    <Pagination properties={transactions} verify="verify" />
+                </>
+
+                : "No Transaction for Approval Yet!"}
             {/* <VerifyTransaction /> */}
             {/* <Col md='4'>
                 
