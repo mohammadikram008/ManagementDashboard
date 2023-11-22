@@ -1,7 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { AppContent, AppSidebar, AppFooter, AppHeader } from '../components/index'
-
+import { useDispatch } from 'react-redux';
+import { fetchAgents } from '../views/Actions/Action';
 const DefaultLayout = () => {
+  const dispatch = useDispatch();
+
+
+  useEffect(() => {
+    dispatch(fetchAgents());
+  }, [dispatch]);
+
   return (
     <div>
       <AppSidebar />

@@ -261,6 +261,7 @@ const Properties = (props ) => {
                         </div>
                     </div> */}
                     <Pagination properties={properties} itemsPerPage={5} />
+                 
                 </Col>
             </Row>
         </Fragment>

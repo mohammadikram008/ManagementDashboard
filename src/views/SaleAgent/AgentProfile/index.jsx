@@ -4,19 +4,15 @@ import { Container, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-// import { Elements, CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
-// import { loadStripe } from '@stripe/stripe-js';
-
-// const stripePromise = loadStripe('sk_test_51NzDfpBuGdpsayKMf1fdpJdhUH5H5sPEWW7EfyEDUaUrkvA1ICRe0J3MuoISm6tebqlrUapDE35u0xtw1I0Sfoxa00QyjZJIF8');
 import axios from 'axios';
-
+import { selectAgents } from '../../Selectors';
+import { useDispatch, useSelector } from 'react-redux';
 import Pagination from '../../Paginations/PropertiesPagination/Index'
 import { useEffect } from 'react';
-const index = () => {
-
-  const [formData, setFormData] = useState({
+const index = () =>{ 
+const [formData, setFormData] = useState({
     name: 'ikram',
-    sales:  '344',
+    sales:  '3er4',
     date:  '4/2/2023',
     code:  '45666',
     title:  'Mohammadikram ',
@@ -25,34 +21,43 @@ const index = () => {
 
     // To store the selected payment method
 });
+    const reduxAgents = useSelector(selectAgents);
+    
+  useEffect(() => {
+    if (reduxAgents && reduxAgents.length > 0) {
+        setFormData(reduxAgents);
+    }
 
-const [properties, setProperty] = useState("");
-useEffect(() => {
-  // Fetch property details when the component mounts
-  const fetchProperty = async () => {
-      try {
-          console.log("t2")
-          const response = await axios.get(`http://localhost:3005/api/tasks/properties`);
-          console.log("data2", response.data)
-          setProperty(response.data);
-          // if (props) {
-          //     console.log("t",trans)
-          //     const response = await axios.post(`http://localhost:3005/api/tasks/getallapp`,props.transactions.map((i) => i.id));
-          //     console.log("data1", response.data)
-          //     setProperty(response.data);
-          // } else {
-          //     console.log("t2")
-          //     const response = await axios.get(`http://localhost:3005/api/tasks/properties`);
-          //     console.log("data2", response.data)
-          //     setProperty(response.data);
-          // }
-      } catch (error) {
-          console.error('Error fetching property details:', error);
-      }
-  };
+  }, [reduxAgents]);
 
-  fetchProperty();
-}, []);
+
+// const [properties, setProperty] = useState("");
+// useEffect(() => {
+//   // Fetch property details when the component mounts
+//   const fetchProperty = async () => {
+//       try {
+//           console.log("t2")
+//           const response = await axios.get(`http://localhost:3005/api/tasks/properties`);
+//           console.log("data2", response.data)
+//           setProperty(response.data);
+//           // if (props) {
+//           //     console.log("t",trans)
+//           //     const response = await axios.post(`http://localhost:3005/api/tasks/getallapp`,props.transactions.map((i) => i.id));
+//           //     console.log("data1", response.data)
+//           //     setProperty(response.data);
+//           // } else {
+//           //     console.log("t2")
+//           //     const response = await axios.get(`http://localhost:3005/api/tasks/properties`);
+//           //     console.log("data2", response.data)
+//           //     setProperty(response.data);
+//           // }
+//       } catch (error) {
+//           console.error('Error fetching property details:', error);
+//       }
+//   };
+
+//   fetchProperty();
+// }, []);
   return (
     <Fragment>
     <Container>
